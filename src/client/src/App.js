@@ -1,82 +1,45 @@
-import React, { useState, useEffect } from "react";
-import logo from "./react-logo.svg";
-import nodejsLogo from "./nodejs-logo.svg";
-import "./App.css";
-
-function App() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/users")
-      .then(res => res.json())
-      .then(json => setUsers(json.users));
-    // Specify how to clean up after this effect:
-    return () => {};
-  }, []); // empty 2nd arg - only runs once
+import { BrowserRouter, Routes, Route, useLocation, Outlet  } from 'react-router-dom'
+import UserHomePage from './Pages/UserHomePage'
+import ProductPage from './Pages/ProductPage'
+import AboutPage from './Pages/AboutPage'
+import BagPage from './Pages/BagPage'
+import AccountPage from './Pages/AccountPage';
+import LoginPage from './Pages/LoginPage'
+import UserNavbar from './components/UserNavbar'
+// import { handlers } from "@/auth" // Referring to the auth.ts we just created
+// export const { GET, POST } = handlers
+ 
+//app layout fn that returns a componet holding the navbar 
+function AppLayout() {
+  const location = useLocation();
+  const showNavbar = location.pathname !== '/login'; // Adjust '/login' if your login path is different
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>React Node Template</h1>
-        <p>
-          <a
-            className="App-link"
-            href="https://github.com/mattvukas/react-node-template"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            https://github.com/mattvukas/react-node-template
-          </a>
-        </p>
-        <div className="logo-box">
-          <img src={logo} className="App-logo" alt="logo" />
-          <img src={nodejsLogo} className="Node-logo" alt="nodejsLogo" />
-        </div>
-        <p>
-          Edit <code>client/src/App.js</code> and save to reload React app.
-        </p>
-        <p>
-          Edit <code>client/server/routes/api.js</code> and save to reload
-          Node.js app.
-        </p>
-        <br />
-        <p>
-          <code>GET /api/users</code>:{" "}
-          {users.length ? users.join(", ") : "loading..."}
-        </p>
-        <br />
-        <p>
-          Docs:{" "}
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://nodejs.org/en/docs/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Node.js
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://expressjs.com/en/4x/api.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Express.js
-          </a>
-        </p>
-      </header>
-    </div>
+    <>
+      {showNavbar && <UserNavbar />}
+      <Outlet /> {/* Renders the matched child route component */}
+    </>
+  );
+}
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<UserHomePage />} />
+          <Route path="/products" element={<ProductPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/bag" element={<BagPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/authorize" />
+        </Route>
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+

@@ -1,0 +1,123 @@
+:root {
+  --remaining-vh: 100vh; /* fallback */
+}
+
+.top-section {
+  height: 60vh;
+}
+
+.bottom-section {
+  height: 40vh;
+}
+
+.full-screen-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+button {
+  background: none; 
+  border: none;    
+  padding: 0;     
+  margin: 0;     
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 30vmin;
+  pointer-events: none;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+body {
+  background: url("../assets/kaininPattern\(tan\).png") center center repeat;
+  background-size: 8em;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(2px + 1vmin);
+  background-color: black;
+  color: white
+}
+
+.App-link {
+  color: #003948;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.full-screen-container {
+  width: 100%;
+}
+.animation-box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.top-bar {
+  padding: 15px;
+  background-color: black;
+  color: white;
+}
+
+.header {
+  grid-area: header; /* If using grid-template-areas */
+  /* Or use: */
+  grid-column: 1 / span 3; /* Spans all three columns */
+  grid-row: 1;
+}
+
+/* .inf-image {
+  display: block;
+  margin: 0 auto;
+  max-width: 45%;
+  height: auto;
+} */
+
+.main-animation-row {
+  position: absolute;
+  right: 0vw;
+  bottom: 0vh;
+  width: 100%;
+}
+
+
+
+.image-wrapper {
+  height: calc(100vh - 56px); /* Adjust if your navbar has a different height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered-image {
+  display: block;
+  margin: 0 auto;
+}
+

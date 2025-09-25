@@ -1,12 +1,33 @@
+// import React from 'react';
+// import { createRoot } from 'react-dom/client';
+// import App from './App';
+// import ReactDOM from 'react-dom/client';
+
+
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
+// root.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { createRoot } from 'react-dom/client';
+import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = createRoot(document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+root.render(
+<Auth0Provider
+    domain="dev-vvaajzhqco4eadv3.us.auth0.com"
+    clientId="jFWJerVb7s79dNJjvLym9KWuBqMmyF9b"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
+    <App />
+  </Auth0Provider>,
+);

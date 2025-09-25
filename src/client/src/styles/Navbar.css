@@ -1,0 +1,24 @@
+.custom-navbar{
+  background-color: #3e4f2b !important;
+  width: 100%;
+  height: 60px;
+  box-sizing: border-box; 
+  color: white; 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+  top: 0;
+  position: sticky !important;
+  top: 0px;
+  z-index: 1000;
+
+}
+
+#navImage {
+  height: 60px;
+  padding-left: 10px;
+  display: flex;
+  justify-content: center;
+}
