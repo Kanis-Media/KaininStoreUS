@@ -8,31 +8,51 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 function UserHomePage(){
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-
   const [users, setUsers] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // replaces `data`
+
 
   useEffect(() => {
     fetch("/api/database")
-      .then(res => res.json())
-      .then(json => setUsers(json.users));
-    // Specify how to clean up after this effect:
-    return () => {};
-  }, []); // empty 2nd arg - only runs once
-
+      .then(res => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then(json => {
+        setUsers(json); // assuming json is an array of user objects
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err);
+        setLoading(false);
+      });
+  }, []);
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  if (!data) {
+  if (loading) {
     return <div>Loading...</div>;
   }
+
 
   return(
     <Container fluid className="full-screen-container px-0">
       {/* <h1>{message}</h1> */}
       <ReleaseBanner />
       <SequentialAnimations />
+
+       <Container className="mt-4">
+        <h2>User List</h2>
+        <ul>
+          {users.map((user, index) => (
+            <li key={index}>
+              {JSON.stringify(user)}
+            </li>
+          ))}
+        </ul>
+      </Container>
+
     </Container>);
 }
 

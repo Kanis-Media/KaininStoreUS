@@ -11,6 +11,13 @@ async function getSecretValue(secretName) {
   return secret.value;
 }
 
+async function getAzureSqlToken() {
+  const credential = new DefaultAzureCredential();
+  const tokenResponse = await credential.getToken("https://database.windows.net/");
+  return tokenResponse.token;
+}
+
+
 /* GET users listing. */
 router.get("/users", function(req, res, next) {
   console.log('get "users" route hit');
@@ -20,17 +27,21 @@ router.get("/users", function(req, res, next) {
 router.get("/database", async (req, res) => {
   try {
     const pool = await sql.connect({
-      server: "NEHEMIAHS_ZEN\\SQLEXPRESS",
+      server: "kainin-ltd.database.windows.net",
       database: "KaininStoreUS",
-      user: "KaininStoreUS",
-      password: await getSecretValue("KaininOnlineStoreUSDBPassword"),
+      authentication: {
+      type: "azure-active-directory-access-token",
       options: {
-        encrypt: true,
-        trustServerCertificate: true,
-      },
+        token: await getAzureSqlToken()
+      }
+    },
+    options: {
+      encrypt: true
+    }
+
     });
 
-    const result = await pool.request().query("SELECT * FROM Users WHERE UserId = 0");
+    const result = await pool.request().query("SELECT * FROM Users WHERE UserId = 1");
     res.json(result.recordset);
   } catch (err) {
     console.error("Database error:", err);
