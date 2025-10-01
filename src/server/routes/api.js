@@ -1,28 +1,3 @@
-const express = require("express");
-const router = express.Router();
-const sql = require('mssql')
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SecretClient } = require("@azure/keyvault-secrets");
-
-async function getSecretValue(secretName) {
-  const credential = new DefaultAzureCredential();
-  const client = new SecretClient("https://kaininkv.vault.azure.net/", credential);
-  const secret = await client.getSecret(secretName);
-  return secret.value;
-}
-
-async function getAzureSqlToken() {
-  const credential = new DefaultAzureCredential();
-  const tokenResponse = await credential.getToken("https://database.windows.net/");
-  return tokenResponse.token;
-}
-
-
-/* GET users listing. */
-router.get("/users", function(req, res, next) {
-  console.log('get "users" route hit');
-  res.send({ users: ["joe", "bernie", "tulsi", "donald", "bill"] });
-});
 
 router.get("/database", async (req, res) => {
   try {
@@ -41,7 +16,7 @@ router.get("/database", async (req, res) => {
 
     });
 
-    const result = await pool.request().query("SELECT * FROM Users WHERE UserId = 1");
+    const result = await pool.request().query("SELECT * FROM Users");
     res.json(result.recordset);
   } catch (err) {
     console.error("Database error:", err);
