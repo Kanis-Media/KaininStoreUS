@@ -1,11 +1,10 @@
-import "../utils/azure.js"
+import { getAzureSqlToken } from '../auth/azureAuth.js';
+const express = require("express");
+const router = express.Router();
+const sql = require('mssql')
 
 
-
-app.post('/CreateUser', async (req, res) => {
-  const { UserID, Auth0ID, Email, FirstName, LastName } = req.body; // Access form fields
-  res.send(`Received UserID: ${UserID}, Auth0ID: ${Auth0ID}, Email: ${Email}, FirstName: ${FirstName}, LastName: ${LastName}`);
-
+router.get("/Users", async (req, res) => {
   try {
     const pool = await sql.connect({
       server: "kainin-ltd.database.windows.net",
@@ -22,25 +21,7 @@ app.post('/CreateUser', async (req, res) => {
 
     });
 
-    const userEmailUsed = await pool.request().query(`
-        IF EXISTS (SELECT 1 FROM YourTable WHERE Email = ${Email})
-          SELECT 'Record Exists' AS Message
-        ELSE
-          SELECT 'Record Does Not Exist' AS Message
-      `);
-    if(userEmailUsed.recordset[0].Message === 'Record Exists'){
-      console.log('Email already in use');
-      return userEmailUsed.recordset[0].Message;
-    }
-    else {
-      await pool.request().query(`
-        INSERT INTO Users (UserID, Auth0ID, Email, FirstName, LastName)
-        VALUES (${UserID}, ${Auth0ID}, ${Email}, ${FirstName}, ${LastName})
-      `);
-      console.log('User created successfully');
-      return 'User created successfully';
-
-    }
+    const result = await pool.request().query("SELECT * FROM Users");
     res.json(result.recordset);
   } catch (err) {
     console.error("Database error:", err);
