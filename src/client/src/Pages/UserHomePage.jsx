@@ -5,6 +5,8 @@ import SequentialAnimations from "../components/SequentialAnimations.jsx"
 import ReleaseBanner from "../components/ReleaseBanner.jsx"
 import '../styles/App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import axios from "axios";
+
 
 
 function UserHomePage(){
@@ -13,21 +15,18 @@ function UserHomePage(){
   const [loading, setLoading] = useState(true); // replaces `data`
 
 
-  useEffect(() => {
-    fetch("/api/database")
-      .then(res => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then(json => {
-        setUsers(json); // assuming json is an array of user objects
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err);
-        setLoading(false);
-      });
-  }, []);
+ useEffect(() => {
+  axios.get("/api/users")
+    .then(response => {
+      setUsers(response.data); // Axios auto-parses JSON
+      setLoading(false);
+    })
+    .catch(err => {
+      setError(err);
+      setLoading(false);
+    });
+}, []);
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
