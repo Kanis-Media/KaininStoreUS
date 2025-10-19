@@ -1,11 +1,10 @@
-import getSecretValue from "./routes/api.js"
-
+const { getSecretValue } =  require("./az-utils.js")
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
 const apiRouter = require("./routes/api");
+const axios = require('axios');
 
 const app = express();
 
@@ -30,13 +29,13 @@ app.get("*", (req, res) => {
 
 //  Login to sqaure api 
 
-const sqaureAuthResponse = await axios.get('https://connect.squareup.com/v2/customers', {
+const sqaureAuthResponse = axios.get('https://connect.squareup.com/v2/customers', {
   headers: {
     'Authorization': getSecretValue('SqaureSandboxAccessToken'),
     'Content-Type': 'application/json'
   }
 });
-console.log(response.data);
+console.log(sqaureAuthResponse.data);
 
 
 module.exports = app;
