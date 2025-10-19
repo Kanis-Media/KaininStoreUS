@@ -1,3 +1,5 @@
+import getSecretValue from "./routes/api.js"
+
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -24,5 +26,17 @@ app.get("*", (req, res) => {
   console.log("req.path", req.path);
   res.sendFile(path.join(__dirname + "../client/build/index.html"));
 });
+
+
+//  Login to sqaure api 
+
+const sqaureAuthResponse = await axios.get('https://connect.squareup.com/v2/customers', {
+  headers: {
+    'Authorization': getSecretValue('SqaureSandboxAccessToken'),
+    'Content-Type': 'application/json'
+  }
+});
+console.log(response.data);
+
 
 module.exports = app;
