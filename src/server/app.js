@@ -27,15 +27,15 @@ app.get("*", (req, res) => {
 });
 
 
-//  Login to sqaure api 
+//  Login to saure api 
 
-const sqaureAuthResponse = axios.get('https://connect.squareup.com/v2/customers', {
-  headers: {
-    'Authorization': getSecretValue('SqaureSandboxAccessToken'),
-    'Content-Type': 'application/json'
-  }
-});
-console.log(sqaureAuthResponse.data);
+// const sqaureAuthResponse = axios.get('https://connect.squareup.com/v2/customers', {
+//   headers: {
+//     'Authorization': getSecretValue('SqaureSandboxAccessToken'),
+//     'Content-Type': 'application/json'
+//   }
+// });
+// console.log(sqaureAuthResponse.data);
 
 
 module.exports = app;

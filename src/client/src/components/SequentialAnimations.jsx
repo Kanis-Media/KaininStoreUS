@@ -9,6 +9,7 @@ import bubTwo from "../assets/homeAnimation/bubbleStyle2.png"
 import bubThree from "../assets/homeAnimation/bubbleStyle3.png"
 import bubFive from "../assets/homeAnimation/bubbleStyle5.png"
 import {Col, Row } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 const images = [
   { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', position: { top: '46%', left: '80%' }, width:'20%', height: 'auto'},
   { id: 2, src: bubOne, alt: 'Bubble style one', position: { top: '40%', left: '72%' }, width:'5%', height: 'auto'},
@@ -26,7 +27,7 @@ const SequentialAnimations = () => {
       {/*Render infKainin only if MainHomeAnimation has completed */}
       {firstAnimationComplete && (
         <Row className="justify-content-center mt-4">
-          <Col xs="auto">
+          <Col xs={10} sm={8} md={6} lg={5} xl={4}>
             <motion.div
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
@@ -35,9 +36,10 @@ const SequentialAnimations = () => {
               <Link to="/products">
                 <img
                   src={infKainin}
-                  className="inf-image"
+                  className="img-fluid mx-auto d-block"
                   alt="Infinite Text w/ Kainin"
                 />
+
               </Link>
             </motion.div>
           </Col>

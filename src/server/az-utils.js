@@ -1,3 +1,7 @@
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
+// require("dotenv").config();
+
 async function getSecretValue(secretName) {
   const credential = new DefaultAzureCredential();
   const client = new SecretClient("https://kaininkv.vault.azure.net/", credential);
