@@ -36,7 +36,7 @@ const SequentialAnimations = () => {
               <Link to="/products">
                 <img
                   src={infKainin}
-                  className="img-fluid mx-auto d-block"
+                  className="img-fluid mx-auto d-block inf-image"
                   alt="Infinite Text w/ Kainin"
                 />
 

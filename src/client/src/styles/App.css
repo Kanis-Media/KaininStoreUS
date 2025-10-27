@@ -80,10 +80,25 @@ body {
   height: 100%;
 }
 
-.top-bar {
-  padding: 15px;
+
+.release-banner {
+  width: 100%;
   background-color: black;
   color: white;
+  text-align: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.release-banner h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+@media (max-width: 576px) {
+  .release-banner h1 {
+    font-size: 1.5rem;
+  }
 }
 
 .header {

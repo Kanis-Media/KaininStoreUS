@@ -5,12 +5,30 @@
 
 @media (max-width: 576px) {
   .inf-image {
-    max-width: 300px;
+    width: 80%;
   }
 }
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .inf-image {
+    width: 70%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .inf-image {
+    width: 60%;
+  }
+
+@media (min-width: 993px) {
+  .inf-image {
+    width: 50%;
+  }
+}
+
 
 .animation-wrapper {
   height: var(--remaining-vh);
   overflow: hidden;
   position: relative;
-}
+}}
