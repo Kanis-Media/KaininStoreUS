@@ -10,12 +10,13 @@ import bubThree from "../assets/homeAnimation/bubbleStyle3.png"
 import bubFive from "../assets/homeAnimation/bubbleStyle5.png"
 import {Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/Animation.css"
 const images = [
-  { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', position: { top: '46%', left: '80%' }, width:'20%', height: 'auto'},
-  { id: 2, src: bubOne, alt: 'Bubble style one', position: { top: '40%', left: '72%' }, width:'5%', height: 'auto'},
-  { id: 4, src: bubTwo, alt: 'Bubble style three', position: { top: '45%', left: '63%' }, width:'5%', height: 'auto'},
-  { id: 4, src: bubThree, alt: 'Bubble style three', position: { top: '30%', left: '55%' }, width:'5%', height: 'auto'},
-  { id: 5, src: bubFive, alt: 'Bubble style five',  position:{ top: '18%', left: '42%' }, width:'9%', height: 'auto'}
+  { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', className: 'img-cloud' },
+  { id: 2, src: bubOne, alt: 'Bubble style one', className: 'img-bubble-one' },
+  { id: 3, src: bubTwo, alt: 'Bubble style two', className: 'img-bubble-two' },
+  { id: 4, src: bubThree, alt: 'Bubble style three', className: 'img-bubble-three' },
+  { id: 5, src: bubFive, alt: 'Bubble style five', className: 'img-bubble-five' }
 ];
 
 

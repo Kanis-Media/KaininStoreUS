@@ -32,3 +32,85 @@
   overflow: hidden;
   position: relative;
 }}
+
+/* Base styles */
+.main-animation-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.main-animation-container img {
+  position: absolute;
+  height: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Cloud image */
+.img-cloud {
+  top: 46%;
+  left: 80%;
+  width: 20%;
+}
+
+/* Bubble styles */
+.img-bubble-one {
+  top: 40%;
+  left: 72%;
+  width: 5%;
+}
+
+.img-bubble-two {
+  top: 45%;
+  left: 63%;
+  width: 5%;
+}
+
+.img-bubble-three {
+  top: 30%;
+  left: 55%;
+  width: 5%;
+}
+
+.img-bubble-five {
+  top: 18%;
+  left: 42%;
+  width: 9%;
+}
+
+/* Responsive overrides */
+@media (max-width: 768px) {
+  .img-cloud {
+    top: 50%;
+    left: 60%;
+    width: 5%;
+  }
+
+  .img-bubble-one,
+  .img-bubble-two,
+  .img-bubble-three {
+    width: 7%;
+  }
+
+  .img-bubble-five {
+    width: 12%;
+  }
+}
+
+@media (max-width: 480px) {
+  .img-cloud {
+    top: 55%;
+    left: 50%;
+    width: 40%;
+  }
+
+  .img-bubble-one,
+  .img-bubble-two,
+  .img-bubble-three {
+    width: 9%;
+  }
+
+  .img-bubble-five {
+    width: 14%;
+  }
+}
