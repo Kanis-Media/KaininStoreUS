@@ -27,7 +27,7 @@ const MainHomeAnimation = ({ images, onAnimationComplete }) => {
 
   return (
     <Row>
-      <Col style={{ marginTop: '50vh', position: 'relative', height: '80vh' }}>
+      <Col className="full-screen-container">
         <motion.div
           className="main-animation-container"
           variants={containerVariants}

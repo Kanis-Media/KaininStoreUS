@@ -72,7 +72,9 @@ body {
 }
 
 .full-screen-container {
-  width: 100%;
+  height: 100vh;
+  margin-top: 0;
+  overflow: hidden;
 }
 .animation-box {
   display: flex;
@@ -103,26 +105,7 @@ body {
 
 .header {
   grid-area: header; /* If using grid-template-areas */
-  /* Or use: */
-  grid-column: 1 / span 3; /* Spans all three columns */
-  grid-row: 1;
 }
-
-/* .inf-image {
-  display: block;
-  margin: 0 auto;
-  max-width: 45%;
-  height: auto;
-} */
-
-.main-animation-row {
-  position: absolute;
-  right: 0vw;
-  bottom: 0vh;
-  width: 100%;
-}
-
-
 
 .image-wrapper {
   height: calc(100vh - 56px); /* Adjust if your navbar has a different height */
