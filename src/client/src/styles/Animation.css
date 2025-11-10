@@ -65,85 +65,58 @@
   margin-bottom: 2rem;
 }
 
-
-/* Cloud image */
-.img-cloud {
-  top: 46%;
-  left: 80%;
-  width: 20%;
-}
-
-/* Bubble styles */
-.img-bubble-one {
-  top: 40%;
-  left: 72%;
-  width: 5%;
-}
-
-.img-bubble-two {
-  top: 45%;
-  left: 63%;
-  width: 5%;
-}
-
-.img-bubble-three {
-  top: 30%;
-  left: 55%;
-  width: 5%;
-}
-
-.img-bubble-five {
-  top: 18%;
-  left: 42%;
-  width: 9%;
-}
-
 .main-animation-container {
   border: 2px dashed red;
 }
+
+
+/* Base size for all animated images */
 .img-cloud,
 .img-bubble-one,
 .img-bubble-two,
 .img-bubble-three,
 .img-bubble-five {
   border: 1px solid blue;
+  width: 20%; /* Smaller default size */
 }
-
-
 
 /* Responsive overrides */
-@media (max-width: 768px) {
-  .img-cloud {
-    top: 50%;
-    left: 60%;
-    width: 5%;
-  }
-
-  .img-bubble-one,
-  .img-bubble-two,
-  .img-bubble-three {
-    width: 7%; 
-  }
-
-  .img-bubble-five {
-    width: 12%;
-  }
-}
-
-@media (max-width: 480px) {
+@media (max-width: 991px) {
   .img-cloud {
     top: 55%;
     left: 50%;
-    width: 40%;
+    width: 20%;
   }
 
   .img-bubble-one,
   .img-bubble-two,
   .img-bubble-three {
-    width: 9%;
+    width: 6%;
   }
 
   .img-bubble-five {
-    width: 14%;
+    top: 0%;
+    left: 40%;
+    width: 10%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .img-cloud {
+    top: 55%;
+    left: 50%;
+    width: 1.5%;
+  }
+
+  .img-bubble-one,
+  .img-bubble-two,
+  .img-bubble-three {
+    width: 6%;
+  }
+
+  .img-bubble-five {
+    top: 0%;
+    left: 40%;
+    width: 10%;
   }
 }
