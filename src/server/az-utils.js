@@ -6,6 +6,7 @@ async function getSecretValue(secretName) {
   const credential = new DefaultAzureCredential();
   const client = new SecretClient("https://kaininkv.vault.azure.net/", credential);
   const secret = await client.getSecret(secretName);
+  console.log("Retrieved secret:", secret.value);
   return secret.value;
 }
 

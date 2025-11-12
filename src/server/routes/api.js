@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require('axios');
 const router = express.Router();
 const sql = require('mssql')
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -44,6 +45,53 @@ router.get("/users", async (req, res) => {
   } finally {
     sql.close(); // Close connection after query
   }
+});
+
+
+router.post("/create_user", async (req, res) => {
+  try {
+    const authZeroDomain = "dev-vvaajzhqco4eadv3.us.auth0.com";
+    const authZeroClientId = process.env.authZeroClientId;
+    const authZeroClientSecret = process.env.authZeroClientSecret;
+    console.log("Creating user with email:", req.body.email);
+    const tokenResponse = await axios.post(`https://${authZeroDomain}/oauth/token`, {
+      grant_type: "authorization_code",
+      client_id: authZeroClientId,
+      client_secret: authZeroClientSecret,
+      audience: `https://${authZeroDomain}/api/v2/`
+    });
+    const token = tokenResponse.data.access_token;
+    console.log(`The TOKEN: ${token}`)
+    const userResponse = await axios.post(
+      `https://${authZeroDomain}/api/v2/users`,
+      {
+        email: req.body.email,
+        password: req.body.password,
+        connection: "Username-Password-Authentication"
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
+    res.json(userResponse.data);
+  } catch (error) {
+  if (error.response) {
+    console.error("Auth0 error response:");
+    console.error("Status:", error.response.status);
+    console.error("Headers:", error.response.headers);
+    console.error("Data:", error.response.data);
+  } else if (error.request) {
+    console.error("No response received from Auth0:");
+    console.error(error.request);
+  } else {
+    console.error("Error setting up Auth0 request:");
+    console.error(error.message);
+  }
+
+  res.status(500).json({ error: "Auth0 request failed" });
+}
+
 });
 
 module.exports = router;
