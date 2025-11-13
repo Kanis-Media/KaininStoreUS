@@ -15,7 +15,7 @@
 @media (min-width: 481px) and (max-width: 767px) {
   .inf-image {
     width: 100%;
-  }
+  } 
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -70,15 +70,31 @@
 }
 
 
-/* Base size for all animated images */
-.img-cloud,
-.img-bubble-one,
-.img-bubble-two,
-.img-bubble-three,
-.img-bubble-five {
-  border: 1px solid blue;
-  width: 20%; /* Smaller default size */
-}
+.img-cloud {
+    top: 10%;
+    left: 20%;
+    width: 50%;
+  }
+  .img-bubble-one {
+    top: 20%;
+    left: 30%;
+    width: 10%;
+  }
+  .img-bubble-two{
+    top: 30%;
+    left: 40%;
+    width: 10%;
+  }
+  .img-bubble-three {
+    top: 40%;
+    left: 50%;
+    width: 10%;
+  }
+  .img-bubble-five {
+    top: 0%;
+    left: 40%;
+    width: 10%;
+  }
 
 /* Responsive overrides */
 @media (max-width: 991px) {
@@ -101,22 +117,30 @@
   }
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1440px) {
   .img-cloud {
-    top: 55%;
-    left: 50%;
-    width: 1.5%;
+    top: 10%;
+    left: 40%;
+    width: 0%;
   }
 
-  .img-bubble-one,
-  .img-bubble-two,
+  .img-bubble-one {
+    top: 20%;
+    left: 20%;
+  }
+  .img-bubble-two{
+    top: 30%;
+    left: 20%;
+  }
   .img-bubble-three {
-    width: 6%;
+    top: 40%;
+    left: 50%;
+    width: 20%;
   }
 
   .img-bubble-five {
     top: 0%;
     left: 40%;
-    width: 10%;
+    width: 5%;
   }
 }
