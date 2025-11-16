@@ -119,18 +119,49 @@
 
 @media (min-width: 992px) and (max-width: 1440px) {
   .img-cloud {
-    top: 10%;
-    left: 40%;
-    width: 0%;
+    top: 23.8%;
+    left: 83%;
+    width: 17%;
   }
 
   .img-bubble-one {
-    top: 20%;
-    left: 20%;
+    top: 18%;
+    left: 77%;
+    width: 4.5%;
   }
   .img-bubble-two{
-    top: 30%;
-    left: 20%;
+    top: 15%;
+    left: 68%;
+    width: 5%;
+  }
+  .img-bubble-three {
+    top: 40%;
+    left: 50%;
+    width: 20%;
+  }
+
+  .img-bubble-five {
+    top: 0%;
+    left: 40%;
+    width: 5%;
+  }
+}
+
+@media (min-width: 1441px) {
+  .img-cloud {
+    top: 24%;
+    left: 82%;
+    width: 18%;
+  }
+  .img-bubble-one {
+    top: 18%;
+    left: 76.5%;
+    width: 4%;
+  }
+  .img-bubble-two{
+    top: 15%;
+    left: 65%;
+    width: 5%;
   }
   .img-bubble-three {
     top: 40%;

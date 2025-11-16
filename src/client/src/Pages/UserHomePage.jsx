@@ -12,7 +12,7 @@ import axios from "axios";
 function UserHomePage(){
 
   return(
-    <Container fluid className="full-screen-container px-0">
+    <Container fluid className="full-screen-container px-0" style={{overflow: "hidden"}}>
       <ReleaseBanner />
       <SequentialAnimations />
     </Container>);
