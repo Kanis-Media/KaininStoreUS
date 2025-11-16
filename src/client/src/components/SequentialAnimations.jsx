@@ -25,27 +25,41 @@ const SequentialAnimations = () => {
 
    return (
     <>
-      {/*Render infKainin only if MainHomeAnimation has completed */}
-      {firstAnimationComplete && (
-        <Row className="justify-content-center mt-4">
-          <Col xs={10} sm={8} md={6} lg={5} xl={4}>
-            <motion.div
-              initial={{ opacity: 0, y: 0 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <Link to="/products">
-                <img
-                  src={infKainin}
-                  className="img-fluid mx-auto d-block inf-image"
-                  alt="Infinite Text w/ Kainin"
-                />
+      <div style={{minHeight: "187px"}}>
+        {/*Render infKainin only if MainHomeAnimation has completed */}
+        {firstAnimationComplete && (
+          <Row className="justify-content-center mt-4">
+            <Col xs={10} sm={8} md={6} lg={5} xl={4}>
+              <motion.div
+                initial={{ opacity: 0, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                <Link to="/products">
+                  <img
+                    src={infKainin}
+                    className="img-fluid mx-auto d-block inf-image"
+                    alt="Infinite Text w/ Kainin"
+                  />
+                </Link>
+              </motion.div>
+            </Col>
+          </Row>
+        )}
 
-              </Link>
-            </motion.div>
-          </Col>
-        </Row>
-      )}
+        {!firstAnimationComplete && (
+          <Row className="justify-content-center mt-4">
+            <Col xs={10} sm={8} md={6} lg={5} xl={4}>
+              <div>
+                <Link>
+                  <img
+                  />
+                </Link>
+              </div>
+            </Col>
+          </Row>
+        )}
+      </div>
 
       {/* Main Animation Section */}
       <Row className="main-animation-row">
