@@ -8,9 +8,12 @@ import bubOne from "../assets/homeAnimation/bubbleStyle1.png"
 import bubTwo from "../assets/homeAnimation/bubbleStyle2.png"
 import bubThree from "../assets/homeAnimation/bubbleStyle3.png"
 import bubFive from "../assets/homeAnimation/bubbleStyle5.png"
+import infoEye from "../assets/homeAnimation/infoEye.png"
 import {Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Animation.css"
+
+//array of images to be passsed as a paramter to MainHomeAnimation 
 const images = [
   { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', className: 'img-cloud' },
   { id: 2, src: bubOne, alt: 'Bubble style one', className: 'img-bubble-one' },
@@ -20,13 +23,15 @@ const images = [
 ];
 
 
+//TODO: important! not appropiate use of bootsrrap grid system this will NEED fixed -NH 
+
 const SequentialAnimations = () => {
   const [firstAnimationComplete, setFirstAnimationComplete] = useState(false);
 
    return (
     <>
       <div style={{minHeight: "187px"}}>
-        {/*Render infKainin only if MainHomeAnimation has completed */}
+        {/*Render infKainin only if MainHomeAnimation has completed if not take up faux space*/}
         {firstAnimationComplete && (
           <Row className="justify-content-center mt-4">
             <Col xs={10} sm={8} md={6} lg={5} xl={4}>
@@ -61,16 +66,35 @@ const SequentialAnimations = () => {
         )}
       </div>
 
-      {/* Main Animation Section */}
-      <Row className="main-animation-row">
-        <Col>
-          <MainHomeAnimation
-            images={images}
-            onAnimationComplete={() => setFirstAnimationComplete(true)}
-          />
-        </Col>
-      </Row>
+      <div>
+        {firstAnimationComplete && (
+          <Row>
+            <Col>
+              <motion.div
+                initial={{ scale: 0, opacity: 0, y: 0 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: "easeIn" }}
+              >
+              <img
+                src={infoEye}
+                className="img-fluid info-eye"
+                alt="Info Eye"
+              />
+              </motion.div>
+            </Col>
+          </Row>
+        )}
+      </div>
 
+      {/* Main Animation Section */}
+        <Row className="main-animation-row">
+          <Col>
+            <MainHomeAnimation
+              images={images}
+              onAnimationComplete={() => setFirstAnimationComplete(true)}
+            />
+          </Col>
+        </Row>
     </>
   );
 };

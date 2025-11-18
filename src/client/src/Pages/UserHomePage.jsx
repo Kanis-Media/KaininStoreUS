@@ -14,7 +14,7 @@ function UserHomePage(){
   return(
     <Container fluid className="full-screen-container px-0" style={{overflow: "hidden"}}>
       <ReleaseBanner />
-      <div>
+      <div className="nimation-parent-container">
         <SequentialAnimations />
       </div>
     </Container>);

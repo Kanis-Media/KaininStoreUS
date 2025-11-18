@@ -21,7 +21,7 @@ const UserNavbar = React.forwardRef((props, ref) => {
           <Container fluid className="d-flex align-items-center justify-content-between">
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-
+              
               {/* Left Section */}
               <Nav
                 className="d-flex align-items-center gap-2"

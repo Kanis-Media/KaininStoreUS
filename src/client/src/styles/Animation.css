@@ -1,43 +1,8 @@
-.inf-image {
+.animation-parent-container {
   display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
+  /* justify-content: space-between;*/
+  align-items: center; /* Centers items vertically */
 }
-
-@media (max-width: 480px) {
-  .inf-image {
-    width: 100%;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 767px) {
-  .inf-image {
-    width: 100%;
-  } 
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  .inf-image {
-    width: 100%;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1199px) {
-  .inf-image {
-    width: 100%;
-  }
-}
-
-@media (min-width: 1200px) {
-  .inf-image {
-    width: 150%;
-  }
-}
-
-
-
 
 .animation-wrapper {
   height: var(--remaining-vh);
@@ -63,38 +28,54 @@
   position: relative;
   margin-top: auto;
   margin-bottom: 2rem;
+  max-width: 60%;
+  margin-left: auto;
 }
 
-.main-animation-container {
-  border: 2px dashed red;
+.inf-image {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
 }
 
+.info-eye {
+  display: flex;
+  justify-content: left;
+  max-width: 15%;
+  height: auto;
+}
 
 .img-cloud {
-    top: 10%;
-    left: 20%;
-    width: 50%;
-  }
-  .img-bubble-one {
-    top: 20%;
-    left: 30%;
-    width: 10%;
-  }
-  .img-bubble-two{
-    top: 30%;
-    left: 40%;
-    width: 10%;
-  }
-  .img-bubble-three {
-    top: 40%;
-    left: 50%;
-    width: 10%;
-  }
-  .img-bubble-five {
-    top: 0%;
-    left: 40%;
-    width: 10%;
-  }
+  top: 10%;
+  left: 20%;
+  width: 50%;
+}
+
+.img-bubble-one {
+  top: 20%;
+  left: 30%;
+  width: 10%;
+}
+
+.img-bubble-two{
+  top: 30%;
+  left: 40%;
+  width: 10%;
+}
+
+.img-bubble-three {
+  top: 40%;
+  left: 50%;
+  width: 10%;
+}
+
+.img-bubble-five {
+  top: 0%;
+  left: 40%;
+  width: 10%;
+}
 
 /* Responsive overrides */
 @media (max-width: 991px) {
@@ -118,6 +99,16 @@
 }
 
 @media (min-width: 992px) and (max-width: 1440px) {
+
+  .inf-image {
+    width: 150%;
+  }
+
+  .info-eye {
+    width: 10%;
+    top: 50%
+  }
+
   .img-cloud {
     top: 23.8%;
     left: 83%;
@@ -135,15 +126,15 @@
     width: 5%;
   }
   .img-bubble-three {
-    top: 40%;
-    left: 50%;
-    width: 20%;
+    top: 5.8%;
+    left: 60.4%;
+    width: 6%;
   }
 
   .img-bubble-five {
     top: 0%;
-    left: 40%;
-    width: 5%;
+    left: 51%;
+    width: 7.5%;
   }
 }
 
