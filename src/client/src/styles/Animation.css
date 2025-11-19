@@ -139,10 +139,19 @@
 }
 
 @media (min-width: 1441px) {
+  .inf-image {
+    width: 150%;
+  }
+
+  .info-eye {
+    width: 10%;
+    top: 50%
+  }
+
   .img-cloud {
     top: 24%;
     left: 82%;
-    width: 18%;
+    width: 30%;
   }
   .img-bubble-one {
     top: 18%;
