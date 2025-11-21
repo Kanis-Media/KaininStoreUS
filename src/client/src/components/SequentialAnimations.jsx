@@ -68,9 +68,10 @@ const SequentialAnimations = () => {
 
       <div>
         {firstAnimationComplete && (
-          <Row>
-            <Col>
-              <motion.div
+         
+           
+              <motion.image
+                style={{float: "left"}}
                 initial={{ scale: 0, opacity: 0, y: 0 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeIn" }}
@@ -80,9 +81,9 @@ const SequentialAnimations = () => {
                 className="img-fluid info-eye"
                 alt="Info Eye"
               />
-              </motion.div>
-            </Col>
-          </Row>
+              </motion.image>
+            
+          
         )}
       </div>
 
