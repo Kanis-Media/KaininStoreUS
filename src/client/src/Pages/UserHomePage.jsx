@@ -1,23 +1,18 @@
 'use client';
-// import React, {useState, useEffect} from "react"
 import {Container} from 'react-bootstrap'
 import SequentialAnimations from "../components/SequentialAnimations.jsx"
 import ReleaseBanner from "../components/ReleaseBanner.jsx"
+import {Grid, Box} from '@mui/material'
 import '../styles/App.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import axios from "axios";
-
-//Testing push changes 
 
 function UserHomePage(){
-
   return(
-    <Container fluid className="full-screen-container px-0" style={{overflow: "hidden"}}>
+    <Grid container fluid className="full-screen-container px-0" style={{overflow: "hidden"}}>
       <ReleaseBanner />
-      <div className="nimation-parent-container">
+      <Box className="animation-parent-container">
         <SequentialAnimations />
-      </div>
-    </Container>);
+      </Box>
+    </Grid>);
 }
 
 export default UserHomePage;

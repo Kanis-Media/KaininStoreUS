@@ -1,37 +1,3 @@
-.animation-parent-container {
-  display: flex;
-  /* justify-content: space-between;*/
-  align-items: center; /* Centers items vertically */
-}
-
-.animation-wrapper {
-  height: var(--remaining-vh);
-  overflow: hidden;
-  position: relative;
-}
-
-/* Base styles */
-.main-animation-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-}
-
-.main-animation-container img {
-  position: absolute;
-  height: auto;
-  transition: all 0.3s ease-in-out;
-}
-
-.main-animation-row 
-{
-  position: relative;
-  margin-top: auto;
-  margin-bottom: 2rem;
-  max-width: 60%;
-  margin-left: auto;
-}
-
 .inf-image {
   display: flex;
   justify-content: center;
@@ -44,7 +10,7 @@
   display: flex;
   justify-content: left;
   max-width: 15%;
-  height: auto;
+  height: 20%;
 }
 
 .img-cloud {
@@ -77,8 +43,54 @@
   width: 10%;
 }
 
-/* Responsive overrides */
+
+/* TODO: see if we can gert rid of this with MUI*/ 
+/* .animation-parent-container {
+  display: flex;
+  /* justify-content: space-between;
+  align-items: center;
+}
+
+.animation-wrapper {
+  height: var(--remaining-vh);
+  overflow: hidden;
+  position: relative;
+} */
+
+/* Base styles */
+/* .main-animation-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.main-animation-container img {
+  position: absolute;
+  height: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.main-animation-row 
+{
+  position: relative;
+  margin-top: auto;
+  margin-bottom: 2rem;
+  max-width: 60%;
+  margin-left: auto;
+} */
+
+
+
+
+
+/* TODO: see if we can gert rid of this with MUI*/ 
+/* Responsive overrides
 @media (max-width: 991px) {
+
+  .inf-image {
+    width: 150%;
+  }
+  
   .img-cloud {
     top: 55%;
     left: 50%;
@@ -174,4 +186,4 @@
     left: 40%;
     width: 5%;
   }
-}
+} */

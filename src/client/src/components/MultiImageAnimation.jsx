@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Row, Col } from 'react-bootstrap';
+import { Grid, Box, Button, Typography } from '@mui/material'
 import '../styles/Animation.css';
 
-const MainHomeAnimation = ({ images, onAnimationComplete }) => {
+
+/*Abstarct component which allows for multiple frmaer motion images to be animated in the same way using framer motion  */
+const MultiImageAnimation = ({ images, containerVariants, itemVariants, onAnimationComplete }) => {
   const [completedCount, setCompletedCount] = useState(0);
 
   useEffect(() => {
@@ -12,27 +14,16 @@ const MainHomeAnimation = ({ images, onAnimationComplete }) => {
     }
   }, [completedCount, images.length, onAnimationComplete]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
-    <Row>
-      <Col className="full-screen-container">
-        <motion.div
+      <motion.div
           className="main-animation-container"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
+        >
+        <Grid item 
+          size={{xs: 8, lg: 7}} 
+          style={{ display: 'flex', flexDirection: 'column', height: '100%', alignSelf: 'center', justifySelf: 'flex-end' }}
         >
           {images.map((image, index) => (
             <motion.img
@@ -46,10 +37,9 @@ const MainHomeAnimation = ({ images, onAnimationComplete }) => {
               }
             />
           ))}
-        </motion.div>
-      </Col>
-    </Row>
+        </Grid>
+      </motion.div>
+   
   );
 };
-
-export default MainHomeAnimation;
+export default MultiImageAnimation;
