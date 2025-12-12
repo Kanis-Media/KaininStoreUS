@@ -1,3 +1,18 @@
+.main-animation-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.img-cloud,
+.img-bubble-one,
+.img-bubble-two,
+.img-bubble-three,
+.img-bubble-five {
+  position: absolute;
+}
+
+
 .inf-image {
   display: flex;
   justify-content: center;
@@ -13,9 +28,13 @@
 }
 
 .img-cloud {
-  top: 10%;
-  left: 80%;
-  width: 30%;
+  top: 10vh;
+  left: 20vh;
+  width: 25vh;
+  /* margin-top: 0vh;
+  margin-bottom: 150vh;
+  margin-right: 20vh;
+  margin-left: auto; */
 }
 
 .img-bubble-one {
@@ -41,148 +60,3 @@
   left: 40%;
   width: 10%;
 }
-
-
-/* TODO: see if we can gert rid of this with MUI*/ 
-/* .animation-parent-container {
-  display: flex;
-  /* justify-content: space-between;
-  align-items: center;
-}
-
-.animation-wrapper {
-  height: var(--remaining-vh);
-  overflow: hidden;
-  position: relative;
-} */
-
-/* Base styles */
-/* .main-animation-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-}
-
-.main-animation-container img {
-  position: absolute;
-  height: auto;
-  transition: all 0.3s ease-in-out;
-}
-
-.main-animation-row 
-{
-  position: relative;
-  margin-top: auto;
-  margin-bottom: 2rem;
-  max-width: 60%;
-  margin-left: auto;
-} */
-
-
-
-
-
-/* TODO: see if we can gert rid of this with MUI*/ 
-/* Responsive overrides
-@media (max-width: 991px) {
-
-  .inf-image {
-    width: 150%;
-  }
-  
-  .img-cloud {
-    top: 55%;
-    left: 50%;
-    width: 20%;
-  }
-
-  .img-bubble-one,
-  .img-bubble-two,
-  .img-bubble-three {
-    width: 6%;
-  }
-
-  .img-bubble-five {
-    top: 0%;
-    left: 40%;
-    width: 10%;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1440px) {
-
-  .inf-image {
-    width: 150%;
-  }
-
-  .info-eye {
-    width: 10%;
-    top: 50%
-  }
-
-  .img-cloud {
-    top: 23.8%;
-    left: 83%;
-    width: 17%;
-  }
-
-  .img-bubble-one {
-    top: 18%;
-    left: 77%;
-    width: 4.5%;
-  }
-  .img-bubble-two{
-    top: 15%;
-    left: 68%;
-    width: 5%;
-  }
-  .img-bubble-three {
-    top: 5.8%;
-    left: 60.4%;
-    width: 6%;
-  }
-
-  .img-bubble-five {
-    top: 0%;
-    left: 51%;
-    width: 7.5%;
-  }
-}
-
-@media (min-width: 1441px) {
-  .inf-image {
-    width: 150%;
-  }
-
-  .info-eye {
-    width: 10%;
-    top: 50%
-  }
-
-  .img-cloud {
-    top: 24%;
-    left: 82%;
-    width: 30%;
-  }
-  .img-bubble-one {
-    top: 18%;
-    left: 76.5%;
-    width: 4%;
-  }
-  .img-bubble-two{
-    top: 15%;
-    left: 65%;
-    width: 5%;
-  }
-  .img-bubble-three {
-    top: 40%;
-    left: 50%;
-    width: 20%;
-  }
-
-  .img-bubble-five {
-    top: 0%;
-    left: 40%;
-    width: 5%;
-  }
-} */

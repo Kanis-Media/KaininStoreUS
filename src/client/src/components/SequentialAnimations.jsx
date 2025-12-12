@@ -14,25 +14,59 @@ import "../styles/Animation.css"
 
 //array of images to be passsed as a paramter to MainHomeAnimation 
 const KaininImages = [
-  { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', className: 'img-cloud' },
-  { id: 2, src: bubOne, alt: 'Bubble style one', className: 'img-bubble-one' },
+  { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', className: 'img-cloud', 
+    sx: { 
+      position: 'absolute', 
+      top: { xs: '5%', md: '10%' }, 
+      left: { xs: '80%', md: '90%' }, 
+      width: { xs: '40%', md: '25%' } 
+    }
+  },
+  { id: 2, src: bubOne, alt: 'Bubble style one', className: 'img-bubble-one',
+    sx: { 
+      position: 'absolute', 
+      top: { xs: '15%', md: '20%' }, 
+      left: { xs: '20%', md: '30%' }, 
+      width: '10%' 
+    }
+  },
   { id: 3, src: bubTwo, alt: 'Bubble style two', className: 'img-bubble-two' },
   { id: 4, src: bubThree, alt: 'Bubble style three', className: 'img-bubble-three' },
   { id: 5, src: bubFive, alt: 'Bubble style five', className: 'img-bubble-five' }
 ];
 
-const KaininContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 },
-    },
-  };
+// const KaininContainerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: { staggerChildren: 0.2 },
+//     },
+// };
 
-  const KaininItemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+// const KaininItemVariants = {
+//   hidden: { opacity: 0, y: 20 },
+//   visible: { opacity: 1, y: 0 },
+// };
+
+const KaininContainerVariants = {
+  hidden: { opacity: 1 }, // keep container visible
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.3,   // wait before starting children
+      staggerChildren: 0.8, // delay between each child
+    },
+  },
+};
+
+const KaininItemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" } 
+  },
+};
 
 const SequentialAnimations = () => {
   const [firstAnimationComplete, setFirstAnimationComplete] = useState(false);
@@ -58,15 +92,6 @@ const SequentialAnimations = () => {
                 </Grid>
               </motion.div>
         )}
-
-        {/* {!firstAnimationComplete && (
-          <Row className="justify-content-center mt-4">
-            <Col>
-              <div>
-              </div>
-            </Col>
-          </Row>
-        )} */}
       </div>
 
         {firstAnimationComplete && (
