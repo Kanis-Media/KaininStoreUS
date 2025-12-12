@@ -8,6 +8,7 @@ import Container from "react-bootstrap/esm/Container"
 import "../styles/Navbar.css"
 import "../styles/App.css"
 import { Navbar, Nav, Col, Row } from 'react-bootstrap';
+import { Grid, Box, Button, Typography } from '@mui/material'
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
