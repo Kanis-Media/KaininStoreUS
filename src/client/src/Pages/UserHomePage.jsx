@@ -9,7 +9,7 @@ function UserHomePage(){
   return(
     <Grid container fluid className="full-screen-container px-0" style={{overflow: "hidden"}}>
       <ReleaseBanner />
-      <Box className="animation-parent-container">
+      <div>
         <SequentialAnimations />
       </Box>
     </Grid>);
