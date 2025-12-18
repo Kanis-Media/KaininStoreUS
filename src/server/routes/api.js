@@ -49,13 +49,13 @@ router.get("/users", async (req, res) => {
 
 
 router.post("/create_user", async (req, res) => {
-  try {
+  try { 
     const authZeroDomain = "dev-vvaajzhqco4eadv3.us.auth0.com";
+    // M2M application credentials need to be set here. https://manage.auth0.com/dashboard/us/dev-vvaajzhqco4eadv3/applications/LDB0D0Uxbh2pmukdn7naIh0PXZSdGoKL/settings
     const authZeroClientId = process.env.authZeroClientId;
     const authZeroClientSecret = process.env.authZeroClientSecret;
-    console.log("Creating user with email:", req.body.email);
     const tokenResponse = await axios.post(`https://${authZeroDomain}/oauth/token`, {
-      grant_type: "authorization_code",
+      grant_type: "client_credentials",
       client_id: authZeroClientId,
       client_secret: authZeroClientSecret,
       audience: `https://${authZeroDomain}/api/v2/`
@@ -73,7 +73,6 @@ router.post("/create_user", async (req, res) => {
         headers: { Authorization: `Bearer ${token}` }
       }
     );
-
     res.json(userResponse.data);
   } catch (error) {
   if (error.response) {
@@ -88,10 +87,8 @@ router.post("/create_user", async (req, res) => {
     console.error("Error setting up Auth0 request:");
     console.error(error.message);
   }
-
   res.status(500).json({ error: "Auth0 request failed" });
 }
-
 });
 
 module.exports = router;

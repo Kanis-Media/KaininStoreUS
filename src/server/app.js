@@ -37,36 +37,36 @@ app.get("*", (req, res) => {
 // });
 // console.log(sqaureAuthResponse.data);
 
-app.post("/create_user", async (req, res) => {
-  try {
-    const authZeroDomain = "dev-vvaajzhqco4eadv3.us.auth0.com";
-    const authZeroClientId = "jFWJerVb7s79dNJjvLym9KWuBqMmyF9b";
-    const authZeroClientSecret = "-MCqYkgciOLtkl33bJU-8HDCmmt5X5_3MjVzBod1vmonwEGLAkkz17c-A6Hp5Y8W";
+// app.post("/create_user", async (req, res) => {
+//   try {
+//     const authZeroDomain = "dev-vvaajzhqco4eadv3.us.auth0.com";
+//     const authZeroClientId = "jFWJerVb7s79dNJjvLym9KWuBqMmyF9b";
+//     const authZeroClientSecret = "-MCqYkgciOLtkl33bJU-8HDCmmt5X5_3MjVzBod1vmonwEGLAkkz17c-A6Hp5Y8W";
    
-    const tokenResponse = await axios.post(`https://${authZeroDomain}/oauth/token`, {
-      grant_type: "client_credentials",
-      client_id: authZeroClientId,
-      client_secret: authZeroClientSecret,
-      audience: `https://${authZeroDomain}/api/v2/`
-    });
-    const token = tokenResponse.data.access_token;
-    const userResponse = await axios.post(
-      `https://${authZeroDomain}/api/v2/users`,
-      {
-        email: req.body.email,
-        password: req.body.password,
-        connection: "Username-Password-Authentication"
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
-    );
+//     const tokenResponse = await axios.post(`https://${authZeroDomain}/oauth/token`, {
+//       grant_type: "client_credentials",
+//       client_id: authZeroClientId,
+//       client_secret: authZeroClientSecret,
+//       audience: `https://${authZeroDomain}/api/v2/`
+//     });
+//     const token = tokenResponse.data.access_token;
+//     const userResponse = await axios.post(
+//       `https://${authZeroDomain}/api/v2/users`,
+//       {
+//         email: req.body.email,
+//         password: req.body.password,
+//         connection: "Username-Password-Authentication"
+//       },
+//       {
+//         headers: { Authorization: `Bearer ${token}` }
+//       }
+//     );
 
-    res.json(userResponse.data);
-  } catch (error) {
-    console.error("Auth0 error:", error.response?.data || error.message);
-    res.status(500).json({ error: "Auth0 request failed" });
-  }
-});
+//     res.json(userResponse.data);
+//   } catch (error) {
+//     console.error("Auth0 error:", error.response?.data || error.message);
+//     res.status(500).json({ error: "Auth0 request failed" });
+//   }
+// });
 
 module.exports = app;
