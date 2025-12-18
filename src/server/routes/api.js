@@ -46,4 +46,51 @@ router.get("/users", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+
+router.post("/create_user", async (req, res) => {
+  try { 
+    const authZeroDomain = "dev-vvaajzhqco4eadv3.us.auth0.com";
+    // M2M application credentials need to be set here. https://manage.auth0.com/dashboard/us/dev-vvaajzhqco4eadv3/applications/LDB0D0Uxbh2pmukdn7naIh0PXZSdGoKL/settings
+    const authZeroClientId = process.env.authZeroClientId;
+    const authZeroClientSecret = process.env.authZeroClientSecret;
+    const tokenResponse = await axios.post(`https://${authZeroDomain}/oauth/token`, {
+      grant_type: "client_credentials",
+      client_id: authZeroClientId,
+      client_secret: authZeroClientSecret,
+      audience: `https://${authZeroDomain}/api/v2/`
+    });
+    const token = tokenResponse.data.access_token;
+    console.log(`The TOKEN: ${token}`)
+    const userResponse = await axios.post(
+      `https://${authZeroDomain}/api/v2/users`,
+      {
+        email: req.body.email,
+        password: req.body.password,
+        connection: "Username-Password-Authentication"
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    res.json(userResponse.data);
+  } catch (error) {
+  if (error.response) {
+    console.error("Auth0 error response:");
+    console.error("Status:", error.response.status);
+    console.error("Headers:", error.response.headers);
+    console.error("Data:", error.response.data);
+  } else if (error.request) {
+    console.error("No response received from Auth0:");
+    console.error(error.request);
+  } else {
+    console.error("Error setting up Auth0 request:");
+    console.error(error.message);
+  }
+  res.status(500).json({ error: "Auth0 request failed" });
+}
+});
+
+>>>>>>> bb387c7 (Added new components to make up the product page, still need to work on api call and pass proper parameters for returning various item groups)
 module.exports = router;
