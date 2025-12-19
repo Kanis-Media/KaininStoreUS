@@ -13,11 +13,11 @@ import "../styles/Animation.css"
 import "../styles/HomePage.css"
 
 const SleepyKaininImages = [
-  { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', className: ''},
-  { id: 2, src: bubOne, alt: 'Bubble style one'},
-  { id: 3, src: bubTwo, alt: 'Bubble style two'},
-  { id: 4, src: bubThree, alt: 'Bubble style three'},
-  { id: 5, src: bubFive, alt: 'Bubble style five'}
+  { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', className: 'img-cloud'},
+  { id: 2, src: bubOne, alt: 'Bubble style one', className: 'img-bubble-one'},
+  { id: 3, src: bubTwo, alt: 'Bubble style two', className: 'img-bubble-two'},
+  { id: 4, src: bubThree, alt: 'Bubble style three', className: 'img-bubble-three'},
+  { id: 5, src: bubFive, alt: 'Bubble style five', className: 'img-bubble-five'}
 ];
 
 const KaininContainerVariants = {
@@ -68,7 +68,7 @@ const SequentialAnimations = () => {
       {/* Main Animation Section */}
 
       <div className="flex-container">
-        {firstAnimationComplete &&
+        {/* {firstAnimationComplete &&
           <motion.div>
             <motion.image
                 style={{float: "left"}}
@@ -84,7 +84,7 @@ const SequentialAnimations = () => {
               </motion.image>
           </motion.div>
         
-        }
+        } */}
          <SleepyKaininAnimation 
               images={SleepyKaininImages}
               containerVariants = {KaininContainerVariants}

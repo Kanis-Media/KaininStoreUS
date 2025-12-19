@@ -16,6 +16,7 @@
 .inf-image {
   display: flex;
   justify-content: center;
+  align-self: center;
   margin: 0 auto;
   max-width: 100%;
   width: 50%;
@@ -31,7 +32,7 @@
 .img-cloud {
   top: 10vh;
   left: 20vh;
-  width: 25vh;
+  width: 10vh;
   /* margin-top: 0vh;
   margin-bottom: 150vh;
   margin-right: 20vh;
