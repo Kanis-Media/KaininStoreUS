@@ -1,21 +1,18 @@
 'use client';
-import React, {useState, useEffect} from "react"
-import {Container, Col, Row} from 'react-bootstrap'
+import {Container} from 'react-bootstrap'
 import SequentialAnimations from "../components/SequentialAnimations.jsx"
 import ReleaseBanner from "../components/ReleaseBanner.jsx"
 import '../styles/App.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import axios from "axios";
-
-//Testing push changes 
+import '../styles/HomePage.css'
 
 function UserHomePage(){
-
   return(
-    <Container fluid className="full-screen-container px-0">
+    <div className="full-screen-container px-0" style={{overflow: "hidden"}}>
       <ReleaseBanner />
-      <SequentialAnimations />
-    </Container>);
+      <div className='flex-container'>
+        <SequentialAnimations />
+      </div>
+    </div>);
 }
 
 export default UserHomePage;
