@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Grid, Box } from '@mui/material';
+import {Row, Col} from 'react-bootstrap'
 
 const ReleaseBanner = React.forwardRef((props, ref) => {
 
@@ -9,11 +9,11 @@ const ReleaseBanner = React.forwardRef((props, ref) => {
   if (location.pathname !== "/") return null;
 
   return (
-   <Grid item size={12} ref={ref}>
-        <Box className="App-header">
+   <Row ref={ref}>
+        <Col xs={12} className="App-header">
           <h1>Infinite, Spring 2026</h1>
-        </Box>
-    </Grid>
+        </Col>
+    </Row>
   );
 });
 
