@@ -27,7 +27,164 @@
 }
 
 
+@media (min-width: 0px) {
+  .inf-image {
+    display: block;
+    max-width: 100%;
+    width: 40%;
+    margin: 0 auto;
+  }
+  .img-cloud {
+    top: 25%;
+    left: 80%;
+    width: 20%;
+    height: auto;
+  }
+  .img-bubble-one {
+    top: 8%;
+    left: 74%;
+    width: 5%;
+    height: auto;
+  }
+  .img-bubble-two{
+    top: 25%;
+    left: 66.5%;
+    width: 5.5%;
+    height: auto;
+  }
+  .img-bubble-three {
+    top: 13%;
+    left: 57%;
+    width: 5.7%;
+    height: auto;
+  }
+  .img-bubble-five {
+    top: 0%;
+    left: 45%;
+    width: 8%;
+    height: auto;
+  }
+}
+
+
+@media (min-width: 320px) {
+  .inf-image {
+    display: block;
+    max-width: 100%;
+    width: 40%;
+    margin: 0 auto;
+  }
+  .img-cloud {
+    top: 25%;
+    left: 80%;
+    width: 20%;
+    height: auto;
+  }
+  .img-bubble-one {
+    top: 8%;
+    left: 74%;
+    width: 5%;
+    height: auto;
+  }
+  .img-bubble-two{
+    top: 25%;
+    left: 66.5%;
+    width: 5.5%;
+    height: auto;
+  }
+  .img-bubble-three {
+    top: 13%;
+    left: 57%;
+    width: 5.7%;
+    height: auto;
+  }
+  .img-bubble-five {
+    top: 0%;
+    left: 45%;
+    width: 8%;
+    height: auto;
+  }
+}
+
+@media (min-width: 480px) {
+  .inf-image {
+    display: block;
+    max-width: 100%;
+    width: 40%;
+    margin: 0 auto;
+  }
+  .img-cloud {
+    top: 25%;
+    left: 80%;
+    width: 20%;
+    height: auto;
+  }
+  .img-bubble-one {
+    top: 8%;
+    left: 74%;
+    width: 5%;
+    height: auto;
+  }
+  .img-bubble-two{
+    top: 25%;
+    left: 66.5%;
+    width: 5.5%;
+    height: auto;
+  }
+  .img-bubble-three {
+    top: 13%;
+    left: 57%;
+    width: 5.7%;
+    height: auto;
+  }
+  .img-bubble-five {
+    top: 0%;
+    left: 45%;
+    width: 8%;
+    height: auto;
+  }
+}
+
 @media (min-width: 1200px) {
+  .inf-image {
+    display: block;
+    max-width: 100%;
+    width: 45%;
+    margin: 0 auto;
+  }
+  .img-cloud {
+    top: 48%;
+    left: 80.5%;
+    width: 20%;
+    height: auto;
+  }
+  .img-bubble-one {
+    top: 35.2%;
+    left: 75.3%;
+    width: 6%;
+    height: auto;
+  }
+  .img-bubble-two{
+    top: 42%;
+    left: 66%;
+    width: 7%;
+    height: auto;
+  }
+  .img-bubble-three {
+    top: 16%;
+    left: 57.5%;
+    width: 8%;
+    height: auto;
+  }
+  .img-bubble-five {
+    top: 0%;
+    left: 45%;
+    width: 10%;
+    height: auto;
+  }
+}
+
+@media (min-width: 1432px) {
   .inf-image {
     display: block;
     max-width: 100%;
