@@ -11,6 +11,8 @@ import { Navbar, Nav, Col, Row } from 'react-bootstrap';
 import { Grid, Box, Button, Typography } from '@mui/material'
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const UserNavbar = React.forwardRef((props, ref) => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -37,7 +39,7 @@ const UserNavbar = React.forwardRef((props, ref) => {
               </Nav>
 
               {/* Center Section */}
-              <Nav className="d-flex justify-content-center flex-grow-1">
+              <Nav className="d-flex d-xs-none d-md-block justify-content-center flex-grow-1">
                 <Nav.Link as={Link} to="/" id="navImage">
                   <img className="centered-image mx-auto" src={KaininTxt} width="200" alt="KAININ" />
                 </Nav.Link>

@@ -6,19 +6,20 @@ import BagPage from './Pages/BagPage'
 import AccountPage from './Pages/AccountPage';
 import LoginPage from './Pages/LoginPage'
 import UserNavbar from './components/UserNavbar'
-// import { handlers } from "@/auth" // Referring to the auth.ts we just created
-// export const { GET, POST } = handlers
+import ReleaseBanner from './components/ReleaseBanner'
  
 //app layout fn that returns a componet holding the navbar 
 function AppLayout() {
   const location = useLocation();
-  const showNavbar = location.pathname !== '/login'; // Adjust '/login' if your login path is different
+  const showNavbar = location.pathname !== '/login';
+  const showReleaseBanner = location.pathname === '/' 
 
   return (
-    <>
-      {showNavbar && <UserNavbar />}
+    <div className="full-screen-container px-0" style={{overflow: "hidden"}}>
+      {showNavbar && <UserNavbar />} {/*Render navbar if is not login page */}
+      {showReleaseBanner && <ReleaseBanner />}
       <Outlet /> {/* Renders the matched child route component */}
-    </>
+    </div>
   );
 }
 
