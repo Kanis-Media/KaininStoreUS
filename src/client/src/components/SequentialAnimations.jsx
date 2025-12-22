@@ -48,14 +48,14 @@ const SequentialAnimations = () => {
    return (
     <>
         {/*Render infKainin only if MainHomeAnimation has completed */}
-        {firstAnimationComplete && (
+        
           <Row>
             <Col xs={12}>
               <motion.div
                 className="flex-container"
                 initial={{ opacity: 0, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ delay: 4.2, duration: 0.8, ease: "easeOut" }}
               >
                   <Link to="/products" className="inf-link">
                     <img
@@ -67,7 +67,7 @@ const SequentialAnimations = () => {
               </motion.div>
             </Col>
           </Row>
-        )}
+      
 
 
       {/* Main Animation Section */}
