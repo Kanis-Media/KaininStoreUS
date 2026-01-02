@@ -1,5 +1,7 @@
 .animation-row {
   flex: 1;
+.animation-row {
+  flex: 1;
   height: 100%;
 }
 .img-cloud,
@@ -16,8 +18,15 @@
   margin: 0 auto;
 }
 .inf-link {
+  display: block;
+  max-width: 100%;
+  width: 50%;
+  margin: 0 auto;
+}
+.inf-link {
   display: flex;
   justify-content: center;
+  width: 100%;
   width: 100%;
 }
 .info-eye {
