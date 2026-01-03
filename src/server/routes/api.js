@@ -18,7 +18,6 @@ const getAzureSqlToken = require("../az-utils.js")
 //   return tokenResponse.token;
 // }
 
-
 router.get("/users", async (req, res) => {
   try {
     const pool = await sql.connect({

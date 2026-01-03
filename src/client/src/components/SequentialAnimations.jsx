@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {isZeroValueString, motion} from 'framer-motion';
+import {motion} from 'framer-motion';
 import { Link } from "react-router-dom";
 import {Row, Col} from "react-bootstrap"
 import SleepyKaininAnimation  from "./SleepyKaininAnimation";
@@ -9,7 +9,6 @@ import bubOne from "../assets/homeAnimation/bubbleStyle1.png"
 import bubTwo from "../assets/homeAnimation/bubbleStyle2.png"
 import bubThree from "../assets/homeAnimation/bubbleStyle3.png"
 import bubFive from "../assets/homeAnimation/bubbleStyle5.png"
-import infoEye from "../assets/InfoEye.png"
 import "../styles/Animation.css"
 import '../styles/App.css';
 
@@ -41,10 +40,8 @@ const KaininItemVariants = {
   },
 };
 
-
 const SequentialAnimations = () => {
   const [firstAnimationComplete, setFirstAnimationComplete] = useState(false);
-
    return (
     <>
         {/*Render infKainin only if MainHomeAnimation has completed */}
@@ -67,30 +64,11 @@ const SequentialAnimations = () => {
               </motion.div>
             </Col>
           </Row>
-      
-
 
       {/* Main Animation Section */}
       <Row className="animation-row">
         <Col xs={12}>
         <div className="flex-container2">
-          {/* {firstAnimationComplete &&
-            <motion.div>
-              <motion.image
-                  style={{float: "left"}}
-                  initial={{ scale: 0, opacity: 0, y: 0 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  transition={{ duration: 1, ease: "easeIn" }}
-                >
-                    <img
-                      src={infoEye}
-                      className="img-fluid info-eye"
-                      alt="Info Eye"
-                    />
-                </motion.image>
-            </motion.div>
-          
-          } */}
           <SleepyKaininAnimation 
                 images={SleepyKaininImages}
                 containerVariants = {KaininContainerVariants}
@@ -100,8 +78,6 @@ const SequentialAnimations = () => {
         </div>
         </Col>
       </Row>
-   
-
     </>
   );
 };

@@ -7,10 +7,7 @@ import '../styles/App.css'
 function UserHomePage(){
   return(
   <>
-          {/* <div className='flex-container'> */}
-            <SequentialAnimations />
-          {/* </div> */}
-
+    <SequentialAnimations />
   </>
   )
 }

@@ -9,6 +9,7 @@
     "heroku-postbuild": "cd src/client && npm install && npm run build"
   },
   "dependencies": {
+    "azure": "^2.3.1-preview",
     "concurrently": "^9.2.1"
   },
   "engines": {

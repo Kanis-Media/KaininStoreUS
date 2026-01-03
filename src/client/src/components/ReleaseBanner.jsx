@@ -7,7 +7,7 @@ const ReleaseBanner = React.forwardRef((props, ref) => {
   const location = useLocation();
 
   if (location.pathname !== "/") return null;
-
+  
   return (
    <Row ref={ref}>
         <Col xs={12} className="App-header">
