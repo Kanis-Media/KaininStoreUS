@@ -7,6 +7,7 @@ import AccountPage from './Pages/AccountPage';
 import LoginPage from './Pages/LoginPage'
 import UserNavbar from './components/UserNavbar'
 import ReleaseBanner from './components/ReleaseBanner'
+import CheckoutPage from './Pages/CheckoutPage'
  
 //app layout fn that returns a componet holding the navbar 
 function AppLayout() {
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/products" element={<ProductPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/bag" element={<BagPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/authorize" />
         </Route>
