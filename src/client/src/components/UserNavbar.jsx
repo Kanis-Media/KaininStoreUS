@@ -24,15 +24,16 @@ const UserNavbar = React.forwardRef((props, ref) => {
   const expandBreakpoint = 'md'
 
   return (
-    <Row ref={ref}>
+    <Row ref={ref} className="custom-navbar-row">
       <Col xs={12}>
         <Navbar expand={expandBreakpoint} className='custom-navbar'>
           <Container fluid className="d-flex align-items-center justify-content-between">
             <Navbar.Toggle onClick={handleShow} />
 
             {/*Mobile navbar*/}
-            <Nav
-              className="d-flex d-md-none align-items-center justify-content-end"
+            {/* Mobile Right Section with div instead of nav due to navbar-nav bs css class flexing by col */}
+            <div 
+              className="d-flex d-md-none align-items-center justify-content-end right-icons gap-3"
               style={{flexShrink: 0 }}
             >
               <Nav.Link as={Link} to="/">
@@ -44,17 +45,15 @@ const UserNavbar = React.forwardRef((props, ref) => {
                 
                 {!isAuthenticated ? (
                   <button onClick={() => loginWithRedirect()}>
-                    <img src={User} width="20" alt="User" className="d-inline-block align-top" />
+                    <img src={User} width="20" alt="User" />
                   </button>
                   ) : (
                     <Nav.Link as={Link} to="/account">
-                        <img src={User} width="20" alt="User" className="d-inline-block align-top" />
+                        <img src={User} width="20" alt="User"/>
                     </Nav.Link>
                   )
                 }
-            </Nav>
-
-
+            </div>
 
             <div className="d-none d-md-flex w-100 justify-content-between">
 
@@ -88,7 +87,7 @@ const UserNavbar = React.forwardRef((props, ref) => {
                 </Nav.Link>
                 
                 {!isAuthenticated ? (
-                  <button onClick={() => loginWithRedirect()}>
+                  <button className="nav-icon-btn" onClick={() => loginWithRedirect()}>
                     <img src={User} width="40" alt="User" className="d-inline-block align-top" />
                   </button>
                   ) : (
