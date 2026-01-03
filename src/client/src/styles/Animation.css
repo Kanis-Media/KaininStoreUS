@@ -33,7 +33,6 @@
   width: 20%;
 }
 
-
 @media (min-width: 0px) and (min-height: 880) {
   .inf-image {
     display: block;

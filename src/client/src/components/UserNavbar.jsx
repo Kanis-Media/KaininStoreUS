@@ -29,9 +29,8 @@ const UserNavbar = React.forwardRef((props, ref) => {
         <Navbar expand={expandBreakpoint} className='custom-navbar'>
           <Container fluid className="d-flex align-items-center justify-content-between">
             <Navbar.Toggle onClick={handleShow} />
-
             {/*Mobile navbar*/}
-            {/* Mobile Right Section with div instead of nav due to navbar-nav bs css class flexing by col */}
+            {/*div instead of nav due to navbar-nav bs css class flexing by col */}
             <div 
               className="d-flex d-md-none align-items-center justify-content-end right-icons gap-3"
               style={{flexShrink: 0 }}
@@ -54,7 +53,6 @@ const UserNavbar = React.forwardRef((props, ref) => {
                   )
                 }
             </div>
-
             <div className="d-none d-md-flex w-100 justify-content-between">
 
               {/* Left Section */}
@@ -123,7 +121,6 @@ const UserNavbar = React.forwardRef((props, ref) => {
                   
                   />
                 </Nav.Link>
-        
             </Offcanvas.Header>
             <Offcanvas.Body>
               {/* Main navigation links */}
@@ -132,14 +129,11 @@ const UserNavbar = React.forwardRef((props, ref) => {
                 <Nav.Link href="#link" onClick={handleClose}>Link</Nav.Link>
                 <Nav.Link href="#about" onClick={handleClose}>About</Nav.Link>
               </Nav>
-
-              
             </Offcanvas.Body>
           </Offcanvas>
 
       </Col>
     </Row>
-
   );
 })
 

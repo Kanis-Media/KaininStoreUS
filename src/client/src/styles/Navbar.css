@@ -19,7 +19,6 @@
   flex-wrap: nowrap;
 }
 
-
 .custom-navbar-row { 
   height: auto; 
   display: flex; 
@@ -30,7 +29,6 @@
   align-items: center;
 }
 
-
 .nav-icon-btn {
   background: none;
   border: none;
@@ -38,7 +36,6 @@
   display: flex;
   align-items: center;
 }
-
 
 #navImage {
   height: 60px;
