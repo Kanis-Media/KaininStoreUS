@@ -9,15 +9,11 @@
     "heroku-postbuild": "cd src/client && npm install && npm run build"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "concurrently": "^9.2.1"
-=======
     "concurrently": "^9.2.1",
     "express": "^5.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "styled-components": "^6.1.19"
->>>>>>> bb387c7 (Added new components to make up the product page, still need to work on api call and pass proper parameters for returning various item groups)
   },
   "engines": {
     "node": ">=12.16.1",
