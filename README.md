@@ -4,6 +4,14 @@
 
 This repository is dedicated to managing and facilitating customer sales and interaction through a custom node + react web app. 
 
+## Dependencies 
+Square -Transactional exchanges fetching inventory information to update the SQL database 
+
+Shippo - Shipping label/rate orchestrater service 
+
+Auth0 - External authentication provider 
+
+KaininStoreUS SQL Database 
 
 ## Testing webhooks 
 
