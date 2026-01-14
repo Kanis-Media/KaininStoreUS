@@ -5,35 +5,23 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
 const getAzureSqlToken = require("../az-utils.js")
 
-// async function getSecretValue(secretName) {
-//   const credential = new DefaultAzureCredential();
-//   const client = new SecretClient("https://kaininkv.vault.azure.net/", credential);
-//   const secret = await client.getSecret(secretName);
-//   return secret.value;
-// }
-
-// async function getAzureSqlToken() {
-//   const credential = new DefaultAzureCredential();
-//   const tokenResponse = await credential.getToken("https://database.windows.net/");
-//   return tokenResponse.token;
-// }
+const dbConfig = {
+  server: "kainin-ltd.database.windows.net",
+        database: "KaininStoreUS",
+        authentication: {
+        type: "azure-active-directory-access-token",
+        options: {
+          token: await getAzureSqlToken()
+        }
+      },
+      options: {
+        encrypt: true
+      }
+};
 
 router.get("/users", async (req, res) => {
   try {
-    const pool = await sql.connect({
-      server: "kainin-ltd.database.windows.net",
-      database: "KaininStoreUS",
-      authentication: {
-      type: "azure-active-directory-access-token",
-      options: {
-        token: await getAzureSqlToken()
-      }
-    },
-    options: {
-      encrypt: true
-    }
-
-    });
+    const pool = sql.connect(dbConfig);
 
     const result = await pool.request().query("SELECT * FROM Users");
     res.json(result.recordset);
@@ -45,8 +33,6 @@ router.get("/users", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
 
 router.post("/create_user", async (req, res) => {
   try { 
@@ -91,5 +77,7 @@ router.post("/create_user", async (req, res) => {
 }
 });
 
->>>>>>> bb387c7 (Added new components to make up the product page, still need to work on api call and pass proper parameters for returning various item groups)
-module.exports = router;
+module.exports = {
+  router,
+  dbConfig 
+};
