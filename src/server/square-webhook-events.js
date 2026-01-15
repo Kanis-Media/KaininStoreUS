@@ -60,7 +60,12 @@ app.post('/webhook-endpoint', async (req, res) => {
 async function updateDatabaseInventory(catalogObject) {
   console.log(`Updating DB for item ${catalogObject.item_data.name}`);
 
-  const optionType = catalogObject.item_data.variations[0].type; // Example field
+  const optionTypeList = catalogObject.item_data.variations;
+
+  const optionTypeValueList = {};
+  optionTypeList.forEach(variation => {
+    optionTypeValueList[variation.type] = variation.item_variation_data.name;
+  });
   const SquareID = catalogObject.id;
   const SKUQuantity = getVariationCount(catalogObject.item_data.variations[0].id);
 
@@ -74,13 +79,7 @@ async function updateDatabaseInventory(catalogObject) {
 
     const query = `
       MERGE INTO OptionTypes AS target
-      USING (SELECT @SquareID AS SquareID, @SKUQuantity AS SKUQuantity) AS source
-      ON target.SquareID = source.SquareID
-      WHEN MATCHED THEN 
-        UPDATE SET target.SKUQuantity = source.SKUQuantity
-      WHEN NOT MATCHED THEN 
-        INSERT (SquareID, SKUQuantity) 
-        VALUES (source.SquareID, source.SKUQuantity);
+     
     `;
 
     req.input('SquareID', sql.NVarChar, SquareID);
