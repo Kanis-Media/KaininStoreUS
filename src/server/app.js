@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const apiRouter = crequire("./routes/api");
+const apiRouter = require("./routes/api");
 const axios = require('axios');
 
 const app = express();
@@ -14,7 +14,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // mount our api router here
-app.use("/api", apiRouter);
+const { router } = require('./routes/api.js');
+app.use('/api', router);
+
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));

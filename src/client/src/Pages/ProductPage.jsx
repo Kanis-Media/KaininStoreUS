@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import SplitScreen from "../components/SplitScreen";
 import CategorySelector from "../components/CategorySelector";
 import ProductDisplay from "../components/ProductDisplay";
+
+
 
 function ProductPage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
