@@ -1,70 +1,70 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
-const Container = styled.div`
-  padding: 20px;
-  height: 100%;
-`;
+// const Container = styled.div`
+//   padding: 20px;
+//   height: 100%;
+// `;
 
-const Header = styled.div`
-  margin-bottom: 30px;
-`;
+// const Header = styled.div`
+//   margin-bottom: 30px;
+// `;
 
-const Title = styled.h2`
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 10px;
-`;
+// const Title = styled.h2`
+//   font-size: 28px;
+//   color: #333;
+//   margin-bottom: 10px;
+// `;
 
-const SubTitle = styled.p`
-  font-size: 16px;
-  color: #666;
-`;
+// const SubTitle = styled.p`
+//   font-size: 16px;
+//   color: #666;
+// `;
 
-const ProductGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-`;
+// const ProductGrid = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+//   gap: 20px;
+// `;
 
-const ProductCard = styled.div`
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+// const ProductCard = styled.div`
+//   border: 1px solid #ddd;
+//   border-radius: 8px;
+//   overflow: hidden;
+//   transition: transform 0.3s ease, box-shadow 0.3s ease;
+//   cursor: pointer;
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-`;
+//   &:hover {
+//     transform: translateY(-5px);
+//     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+//   }
+// `;
 
-const ProductImage = styled.div`
-  width: 100%;
-  height: 300px;
-  background-color: #e9ecef;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-`;
+// const ProductImage = styled.div`
+//   width: 100%;
+//   height: 300px;
+//   background-color: #e9ecef;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   color: #999;
+// `;
 
-const ProductInfo = styled.div`
-  padding: 15px;
-`;
+// const ProductInfo = styled.div`
+//   padding: 15px;
+// `;
 
-const ProductName = styled.h3`
-  font-size: 18px;
-  margin-bottom: 8px;
-  color: #333;
-`;
+// const ProductName = styled.h3`
+//   font-size: 18px;
+//   margin-bottom: 8px;
+//   color: #333;
+// `;
 
-const ProductPrice = styled.p`
-  font-size: 20px;
-  font-weight: bold;
-  color: #007bff;
-`;
+// const ProductPrice = styled.p`
+//   font-size: 20px;
+//   font-weight: bold;
+//   color: #007bff;
+// `;
 
 // Mock product data
 const allProducts = {
@@ -110,8 +110,9 @@ export default function ProductDisplay({ selectedCategory }) {
   const categoryName = selectedCategory ? categoryNames[selectedCategory] : '';
 
   return (
-    <Container>
-      <Header>
+    <>
+      <h1>ProductDisplay</h1>
+      {/* <Header>
         <Title>{categoryName || 'Select a Category'}</Title>
         <SubTitle>
           {products.length > 0 
@@ -132,7 +133,6 @@ export default function ProductDisplay({ selectedCategory }) {
             </ProductInfo>
           </ProductCard>
         ))}
-      </ProductGrid>
-    </Container>
-  );
-}
+      </ProductGrid>*/}
+    </> 
+)}

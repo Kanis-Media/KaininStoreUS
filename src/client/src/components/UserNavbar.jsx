@@ -100,35 +100,37 @@ const UserNavbar = React.forwardRef((props, ref) => {
         </Navbar>
 
         {/* Offcanvas component for the sidebar on mobile */}
-        <Offcanvas
-          show={show}
-          onHide={handleClose}
-          placement="start"
-          className="d-flex d-md-none"
-          style={{ backgroundColor: "#3e4f2b" }}
-          container={document.getElementById('root')}
-        >
-          <Offcanvas.Header closeButton>
-            <Nav.Link as={Link} to="/" id="navImage">
-              <img
-                className="centered-image mx-auto"
-                src={KaininTxt}
-                style={{ maxWidth: "100%", height: "auto" }}
-                width="200"
-                alt="Kainin Txt"
-              />
-            </Nav.Link>
-          </Offcanvas.Header>
-
-          <Offcanvas.Body>
-            <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link as={Link} to="/" onClick={handleClose}>Home</Nav.Link>
-              <Nav.Link href="#link" onClick={handleClose}>Link</Nav.Link>
-              <Nav.Link href="#about" onClick={handleClose}>About</Nav.Link>
-            </Nav>
-          </Offcanvas.Body>
-        </Offcanvas>
-
+          <Offcanvas
+            show={show}
+            className="d-flex d-md-none"
+            onHide={handleClose}
+            style={{backgroundColor: "#3e4f2b"}}
+            responsive={expandBreakpoint} // This prop helps control responsive behavior
+            placement="start" // Sidebar slides in from the left (start)
+            id={`offcanvasNavbar-expand-${expandBreakpoint}`}
+            aria-labelledby={`offcanvasNavbarLabel-expand-${expandBreakpoint}`}
+          >
+            <Offcanvas.Header closeButton>
+                <Nav.Link as={Link} to="/" id="navImage">
+                  <img 
+                    className="centered-image mx-auto" 
+                    src={KaininTxt} 
+                    style={{maxWidth: "100%", height: "auto"}}
+                    width="200" height="auto" 
+                    alt="Kainin Txt" 
+                  
+                  />
+                </Nav.Link>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              {/* Main navigation links */}
+              <Nav className="justify-content-end flex-grow-1 pe-3">
+                <Nav.Link as={Link} to="/" onClick={handleClose}>Home</Nav.Link>
+                <Nav.Link href="#link" onClick={handleClose}>Link</Nav.Link>
+                <Nav.Link href="#about" onClick={handleClose}>About</Nav.Link>
+              </Nav>
+            </Offcanvas.Body>
+          </Offcanvas>
 
       </Col>
     </Row>

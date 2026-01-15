@@ -39,17 +39,66 @@ router.get("/users", async (req, res) => {
 });
 
 router.get("/products", async (req, res) => {
+  const { categoryId } = req.query;
+
   try {
     const pool = await sql.connect(dbConfig);
-    const result = await pool.request().query("SELECT * FROM Products");
-    res.json(result.recordset);
+
+    const result = await pool.request()
+      .input("CategoryID", sql.Int, categoryId)
+      .query(`
+        SELECT 
+          p.ProductID,
+          p.Name,
+          p.Description,
+          p.ImageURL,
+          p.Price,
+          p.SquareID,
+          v.ProductVariationID,
+          v.SKU,
+          v.InStock,
+          v.Available,
+          v.Allocated,
+          v.ProductOptionID
+        FROM Products p
+        LEFT JOIN ProductVariations v ON p.ProductID = v.ProductID
+        WHERE p.CategoryID = @CategoryID
+        ORDER BY p.ProductID, v.ProductVariationID
+      `);
+
+    const products = {};
+    result.recordset.forEach(row => {
+      if (!products[row.ProductID]) {
+        products[row.ProductID] = {
+          productId: row.ProductID,
+          name: row.Name,
+          description: row.Description,
+          imageUrl: row.ImageURL,
+          price: row.Price,
+          squareId: row.SquareID,
+          variations: []
+        };
+      }
+
+      if (row.ProductVariationID) {
+        products[row.ProductID].variations.push({
+          variationId: row.ProductVariationID,
+          sku: row.SKU,
+          inStock: row.InStock,
+          available: row.Available,
+          allocated: row.Allocated,
+          optionId: row.ProductOptionID
+        });
+      }
+    });
+
+    res.json(Object.values(products));
   } catch (err) {
-    console.error("Database error:", err);
-    res.status(500).json({ error: "Database query failed" });
-  } finally {
-    sql.close();
+    console.error(err);
+    res.status(500).send("Error fetching products");
   }
 });
+
 
 router.get("/productVariationsFromProductID", async (req, res) => {
   const productID = req.params.productID;

@@ -1,24 +1,23 @@
-import React, { useState} from "react";
-import SplitScreen from "../components/SplitScreen";
-import CategorySelector from "../components/CategorySelector";
-import ProductDisplay from "../components/ProductDisplay";
+import React, { useState, useEffect } from "react";
+import { Container, Spinner } from "react-bootstrap";
+import ProductGrid from "../components/ProductGrid";
 
+export default function ProductPage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-
-function ProductPage() {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  useEffect(() => {
+    setLoading(true);
+    fetch("/products") // or add ?categoryId=1 if needed
+      .then(res => res.json())
+      .then(data => setProducts(data))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
-    <div style={{ margin: 0, padding: 0 }}>
-      <SplitScreen leftWeight={1} rightWeight={4}>
-        <CategorySelector 
-          onCategorySelect={setSelectedCategory}
-          selectedCategory={selectedCategory}
-        />
-        <ProductDisplay selectedCategory={selectedCategory} />
-      </SplitScreen>
-    </div>
+    <Container fluid className="py-4">
+      <h2 className="mb-4">All Products</h2>
+      {loading ? <Spinner animation="border" /> : <ProductGrid products={products} />}
+    </Container>
   );
 }
-
-export default ProductPage;
