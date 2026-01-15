@@ -20,6 +20,7 @@ const squareClient = new Client({
 // Get this from the Webhooks section of your Developer Dashboard
 const signatureVerifier = new SignatureVerifier(process.env.SQUARE_SIGNATURE_KEY); 
 
+
 app.post('/webhook-endpoint', async (req, res) => {
   // 1. Verify the notification's authenticity
   const hmacSignature = req.get('X-Square-Signature');
@@ -43,7 +44,8 @@ app.post('/webhook-endpoint', async (req, res) => {
         const { result } = await squareClient.catalog.retrieveCatalogObject({
           objectId: data.object.id,
         });
-        // Call a function to update your database
+        // Update Varation support tables and inventory through product varations in the database
+        await updateVariationSupportTables(result.object);
         await updateDatabaseInventory(result.object); 
         break;
       default:
@@ -56,65 +58,128 @@ app.post('/webhook-endpoint', async (req, res) => {
   }
 });
 
-// Example function to interact with your database
-async function updateDatabaseInventory(catalogObject) {
+async function updateVariationSupportTables(catalogObject) {
   console.log(`Updating DB for item ${catalogObject.item_data.name}`);
 
-  const optionTypeList = catalogObject.item_data.variations;
-
-  const optionTypeValueList = {};
-  optionTypeList.forEach(variation => {
-    optionTypeValueList[variation.type] = variation.item_variation_data.name;
-  });
+  const variations = catalogObject.item_data.variations;
   const SquareID = catalogObject.id;
-  const SKUQuantity = getVariationCount(catalogObject.item_data.variations[0].id);
 
-   //merge query into Option Types, Option Values, and ProductOptions Tables 
   try {
-
     const pool = await sql.connect(dbConfig);
 
-   
-    const req = await pool.request();
+    for (const variation of variations) {
+      const optionTypeName = variation.type;
+      const optionValueName = variation.item_variation_data.name;
 
-    const query = `
-      MERGE INTO OptionTypes AS target
-     
-    `;
+      const request = pool.request();
+      request.input('OptionTypeName', sql.NVarChar, optionTypeName);
+      request.input('OptionValueName', sql.NVarChar, optionValueName);
+      request.input('ProductID', sql.NVarChar, SquareID);
 
-    req.input('SquareID', sql.NVarChar, SquareID);
-    req.input('SKUQuantity', sql.Int, SKUQuantity);
+      const query = `
+        MERGE INTO OptionTypes AS target
+        USING (SELECT @OptionTypeName AS OptionTypeName) AS source
+        ON target.OptionTypeName = source.OptionTypeName
+        WHEN NOT MATCHED THEN
+          INSERT (OptionTypeName) VALUES (source.OptionTypeName);
 
-    await req.query(query);
-  } 
-    catch (err) {
+        MERGE INTO OptionValues AS target
+        USING (
+          SELECT 
+            @OptionValueName AS OptionValueName,
+            (SELECT OptionTypeID FROM OptionTypes WHERE OptionTypeName = @OptionTypeName) AS OptionTypeID
+        ) AS source
+        ON target.OptionValueName = source.OptionValueName AND target.OptionTypeID = source.OptionTypeID
+        WHEN NOT MATCHED THEN
+          INSERT (OptionValueName, OptionTypeID) VALUES (source.OptionValueName, source.OptionTypeID);
+
+        MERGE INTO ProductOptions AS target
+        USING (
+          SELECT 
+            @ProductID AS ProductID,
+            (SELECT OptionValueID FROM OptionValues WHERE OptionValueName = @OptionValueName) AS OptionValueID
+        ) AS source
+        ON target.ProductID = source.ProductID AND target.OptionValueID = source.OptionValueID
+        WHEN NOT MATCHED THEN
+          INSERT (ProductID, OptionValueID) 
+          VALUES (source.ProductID, source.OptionValueID);
+      `;
+
+      await request.query(query);
+    }
+  } catch (err) {
     console.error("Database error:", err);
   } finally {
-    sql.close(); // Close connection after query
+    sql.close();
   }
-
-  //merge query to update inventory
-  try {
-      sql.connect(dbConfig);
-  
-      const req = sql.Request();
-
-      
-      const query = `
-        MERGE INTO Products AS target
-        USING (SELECT @ItemId AS ItemId, @Quantity AS Quantity) AS source
-      `;
-      
- 
-    } catch (err) {
-      console.error("Database error:", err);
-      res.status(500).json({ error: "Database query failed" });
-    } finally {
-      sql.close(); // Close connection after query
-    }
-  
 }
 
 
-// const PORT = process.env.PORT || 3000;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+async function updateDatabaseInventory(catalogObject) {
+  console.log(`Updating inventory for item ${catalogObject.item_data.name}`);
+
+  const productSquareID = catalogObject.id;
+  const productName = catalogObject.item_data.name;
+  const productDescription = catalogObject.item_data.description || null;
+  const productImageURL = catalogObject.item_data.image_url || null;
+  const productPrice = catalogObject.item_data.variations[0].item_variation_data.price_money?.amount || 0;
+
+  try {
+    const pool = await sql.connect(dbConfig);
+
+    // Update Products table
+    const productRequest = pool.request();
+    productRequest.input('SquareID', sql.VarChar(255), productSquareID);
+    productRequest.input('Name', sql.VarChar(255), productName);
+    productRequest.input('Description', sql.VarChar(255), productDescription);
+    productRequest.input('ImageURL', sql.VarChar(255), productImageURL);
+    productRequest.input('Price', sql.Money, productPrice);
+
+    const productQuery = `
+      MERGE INTO Products AS target
+      USING (SELECT @SquareID AS SquareID) AS source
+      ON target.SquareID = source.SquareID
+      WHEN MATCHED THEN
+        UPDATE SET Name = @Name, Description = @Description, ImageURL = @ImageURL, Price = @Price
+      WHEN NOT MATCHED THEN
+        INSERT (SquareID, Name, Description, ImageURL, Price)
+        VALUES (@SquareID, @Name, @Description, @ImageURL, @Price);
+    `;
+    await productRequest.query(productQuery);
+
+    // Update ProductVariations table
+    for (const variation of catalogObject.item_data.variations) {
+      const variationSquareID = variation.id;
+      const sku = variation.item_variation_data.sku;
+      const available = variation.item_variation_data.available_quantity || 0;
+      const allocated = variation.item_variation_data.allocated_quantity || 0;
+      const inStock = available - allocated;
+      const productOptionID = null; // You may need to resolve this from your OptionValues/ProductOptions tables
+
+      const variationRequest = pool.request();
+      variationRequest.input('SquareID', sql.VarChar(255), variationSquareID);
+      variationRequest.input('SKU', sql.VarChar(80), sku);
+      variationRequest.input('Available', sql.Int, available);
+      variationRequest.input('Allocated', sql.Int, allocated);
+      variationRequest.input('InStock', sql.Int, inStock);
+      variationRequest.input('ProductID', sql.VarChar(255), productSquareID);
+      variationRequest.input('ProductOptionID', sql.Int, productOptionID);
+
+      const variationQuery = `
+        MERGE INTO ProductVariations AS target
+        USING (SELECT @SquareID AS SquareID) AS source
+        ON target.SquareID = source.SquareID
+        WHEN MATCHED THEN
+          UPDATE SET SKU = @SKU, Available = @Available, Allocated = @Allocated, InStock = @InStock, ProductID = @ProductID, ProductOptionID = @ProductOptionID
+        WHEN NOT MATCHED THEN
+          INSERT (SquareID, SKU, Available, Allocated, InStock, ProductID, ProductOptionID)
+          VALUES (@SquareID, @SKU, @Available, @Allocated, @InStock, @ProductID, @ProductOptionID);
+      `;
+      await variationRequest.query(variationQuery);
+    }
+  } catch (err) {
+    console.error("Database error:", err);
+  } finally {
+    sql.close();
+  }
+}
