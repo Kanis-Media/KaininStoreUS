@@ -127,56 +127,110 @@ async function updateDatabaseInventory(catalogObject) {
   try {
     const pool = await sql.connect(dbConfig);
 
-    // Update Products table
-    const productRequest = pool.request();
-    productRequest.input('SquareID', sql.VarChar(255), productSquareID);
-    productRequest.input('Name', sql.VarChar(255), productName);
-    productRequest.input('Description', sql.VarChar(255), productDescription);
-    productRequest.input('ImageURL', sql.VarChar(255), productImageURL);
-    productRequest.input('Price', sql.Money, productPrice);
+    //
+    // 1. UPSERT PRODUCT
+    //
+    const productReq = pool.request();
+    productReq.input("SquareID", sql.VarChar, productSquareID);
+    productReq.input("Name", sql.VarChar, productName);
+    productReq.input("Description", sql.VarChar, productDescription);
+    productReq.input("ImageURL", sql.VarChar, productImageURL);
+    productReq.input("Price", sql.Money, productPrice);
 
-    const productQuery = `
+    await productReq.query(`
       MERGE INTO Products AS target
       USING (SELECT @SquareID AS SquareID) AS source
       ON target.SquareID = source.SquareID
       WHEN MATCHED THEN
-        UPDATE SET Name = @Name, Description = @Description, ImageURL = @ImageURL, Price = @Price
+        UPDATE SET Name=@Name, Description=@Description, ImageURL=@ImageURL, Price=@Price
       WHEN NOT MATCHED THEN
         INSERT (SquareID, Name, Description, ImageURL, Price)
         VALUES (@SquareID, @Name, @Description, @ImageURL, @Price);
-    `;
-    await productRequest.query(productQuery);
+    `);
 
-    // Update ProductVariations table
+    const productIdResult = await pool.request()
+      .input("SquareID", sql.VarChar, productSquareID)
+      .query(`SELECT ProductID FROM Products WHERE SquareID=@SquareID`);
+
+    const productID = productIdResult.recordset[0].ProductID;
+
+    const existingVarResult = await pool.request()
+      .input("ProductID", sql.Int, productID)
+      .query(`SELECT SquareID FROM ProductVariations WHERE ProductID=@ProductID`);
+
+    const existingVariationIDs = existingVarResult.recordset.map(r => r.SquareID);
+
+    const incomingVariationIDs = catalogObject.item_data.variations.map(v => v.id);
+
+    const variationsToDelete = existingVariationIDs.filter(id => !incomingVariationIDs.includes(id));
+
+    if (variationsToDelete.length > 0) {
+      const deleteReq = pool.request();
+      deleteReq.input("ProductID", sql.Int, productID);
+      await deleteReq.query(`
+        DELETE FROM ProductVariations
+        WHERE ProductID=@ProductID
+          AND SquareID IN ('${variationsToDelete.join("','")}')
+      `);
+    }
+
+    //
+    // 6. UPSERT EACH VARIATION
+    //
     for (const variation of catalogObject.item_data.variations) {
       const variationSquareID = variation.id;
       const sku = variation.item_variation_data.sku;
       const available = variation.item_variation_data.available_quantity || 0;
       const allocated = variation.item_variation_data.allocated_quantity || 0;
       const inStock = available - allocated;
-      const productOptionID = null; // You may need to resolve this from your OptionValues/ProductOptions tables
 
-      const variationRequest = pool.request();
-      variationRequest.input('SquareID', sql.VarChar(255), variationSquareID);
-      variationRequest.input('SKU', sql.VarChar(80), sku);
-      variationRequest.input('Available', sql.Int, available);
-      variationRequest.input('Allocated', sql.Int, allocated);
-      variationRequest.input('InStock', sql.Int, inStock);
-      variationRequest.input('ProductID', sql.VarChar(255), productSquareID);
-      variationRequest.input('ProductOptionID', sql.Int, productOptionID);
+      const optionTypeName = variation.type;
+      const optionValueName = variation.item_variation_data.name;
 
-      const variationQuery = `
+      //
+      // Resolve ProductOptionID
+      //
+      const optionReq = pool.request();
+      optionReq.input("ProductID", sql.Int, productID);
+      optionReq.input("OptionTypeName", sql.VarChar, optionTypeName);
+      optionReq.input("OptionValueName", sql.VarChar, optionValueName);
+
+      const optionResult = await optionReq.query(`
+        SELECT po.ProductOptionID
+        FROM ProductOptions po
+        JOIN OptionValues ov ON po.OptionValueID = ov.OptionValueID
+        JOIN OptionTypes ot ON ov.OptionTypeID = ot.OptionTypeID
+        WHERE po.ProductID = @ProductID
+          AND ov.OptionValueName = @OptionValueName
+          AND ot.OptionTypeName = @OptionTypeName
+      `);
+
+      const productOptionID = optionResult.recordset[0]?.ProductOptionID || null;
+
+      //
+      // UPSERT VARIATION
+      //
+      const varReq = pool.request();
+      varReq.input("SquareID", sql.VarChar, variationSquareID);
+      varReq.input("SKU", sql.VarChar, sku);
+      varReq.input("Available", sql.Int, available);
+      varReq.input("Allocated", sql.Int, allocated);
+      varReq.input("InStock", sql.Int, inStock);
+      varReq.input("ProductID", sql.Int, productID);
+      varReq.input("ProductOptionID", sql.Int, productOptionID);
+
+      await varReq.query(`
         MERGE INTO ProductVariations AS target
         USING (SELECT @SquareID AS SquareID) AS source
         ON target.SquareID = source.SquareID
         WHEN MATCHED THEN
-          UPDATE SET SKU = @SKU, Available = @Available, Allocated = @Allocated, InStock = @InStock, ProductID = @ProductID, ProductOptionID = @ProductOptionID
+          UPDATE SET SKU=@SKU, Available=@Available, Allocated=@Allocated, InStock=@InStock, ProductID=@ProductID, ProductOptionID=@ProductOptionID
         WHEN NOT MATCHED THEN
           INSERT (SquareID, SKU, Available, Allocated, InStock, ProductID, ProductOptionID)
           VALUES (@SquareID, @SKU, @Available, @Allocated, @InStock, @ProductID, @ProductOptionID);
-      `;
-      await variationRequest.query(variationQuery);
+      `);
     }
+
   } catch (err) {
     console.error("Database error:", err);
   } finally {
