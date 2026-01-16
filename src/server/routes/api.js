@@ -23,7 +23,11 @@ async function initDbConfig() {
   };
 }
 
-initDbConfig(); // initialize on startup
+(async () => {
+  await initDbConfig();
+  // app.listen(4000, () => console.log("Server ready"));
+})();
+
 
 router.get("/users", async (req, res) => {
   try {

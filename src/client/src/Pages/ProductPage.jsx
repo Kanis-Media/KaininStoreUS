@@ -8,7 +8,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/products") // or add ?categoryId=1 if needed
+    fetch("/api/products")
       .then(res => res.json())
       .then(data => setProducts(data))
       .finally(() => setLoading(false));
