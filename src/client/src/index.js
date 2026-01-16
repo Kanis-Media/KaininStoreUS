@@ -20,14 +20,16 @@ import App from './App';
 
 const root = createRoot(document.getElementById('root'));
 
+console.log("INDEX.JS LOADED");
+
 root.render(
-<Auth0Provider
-    domain="dev-vvaajzhqco4eadv3.us.auth0.com"
-    clientId="jFWJerVb7s79dNJjvLym9KWuBqMmyF9b"
-    authorizationParams={{
-      redirect_uri: window.location.origin
-    }}
-  >
-    <App />
-  </Auth0Provider>,
+  <React.StrictMode>
+    <Auth0Provider
+      domain="dev-vvaajzhqco4eadv3.us.auth0.com"
+      clientId="jFWJerVb7s79dNJjvLym9KWuBqMmyF9b"
+      authorizationParams={{ redirect_uri: window.location.origin }}
+    >
+      <App />
+    </Auth0Provider>
+  </React.StrictMode>
 );

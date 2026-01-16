@@ -24,6 +24,8 @@ function AppLayout() {
 }
 
 const App = () => {
+  console.log("APP FROM CORRECT INDEX.JS");
+
   return (
     <BrowserRouter>
       <Routes>

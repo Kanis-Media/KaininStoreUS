@@ -1,12 +1,23 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Spinner } from "react-bootstrap";
+import ProductGrid from "../components/ProductGrid";
 
-function ProductPage(){
-    return (
-        <Container fluid className="full-screen-container px-0">
-            <p>product page</p>
-        </Container>
-    );
+export default function ProductPage() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(data => setProducts(data))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <Container fluid className="py-4">
+      <h2 className="mb-4">All Products</h2>
+      {loading ? <Spinner animation="border" /> : <ProductGrid products={products} />}
+    </Container>
+  );
 }
-
-export default ProductPage;
