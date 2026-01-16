@@ -39,6 +39,19 @@ router.get("/users", async (req, res) => {
 });
 
 router.get("/products", async (req, res) => {
+  try {
+    const pool = await sql.connect(dbConfig);
+    const result = await pool.request().query("SELECT * FROM Products");
+    res.json(result.recordset);
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: "Database query failed" });
+  } finally {
+    sql.close();
+  }
+});
+
+router.get("/productById", async (req, res) => {
   const { categoryId } = req.query;
 
   try {
