@@ -45,8 +45,6 @@ router.get("/users", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-=======
 
 router.post("/create_user", async (req, res) => {
   try { 
@@ -91,5 +89,4 @@ router.post("/create_user", async (req, res) => {
 }
 });
 
->>>>>>> bb387c7 (Added new components to make up the product page, still need to work on api call and pass proper parameters for returning various item groups)
 module.exports = router;
