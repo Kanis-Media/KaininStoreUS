@@ -5,8 +5,20 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const apiRouter = require("./routes/api");
 const axios = require('axios');
+const cors = require('cors');
+
 
 const app = express();
+
+// const corsOptions = {
+//   origin: 'https://www.your-allowed-client-app.com', // Only this origin can access
+//   methods: 'GET,POST,PUT,DELETE', // Allowed HTTP methods
+//   allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+//   credentials: true, // Allow cookies/auth headers to be sent cross-origin
+//   optionsSuccessStatus: 204 // Some legacy browsers need this
+// }
+// app.use(cors(corsOptions));
+app.use(cors()); //will leave open rn for dev 
 
 app.use(logger("dev"));
 app.use(express.json());
