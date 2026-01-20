@@ -32,6 +32,7 @@ body {
   background: url("../assets/kaininPattern\(tan\).png") center center repeat;
   background-size: 8em;
   overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
