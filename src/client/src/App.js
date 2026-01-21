@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, useLocation, Outlet  } from 'react-router-dom'
-import UserHomePage from './Pages/UserHomePage'
-import ProductPage from './Pages/ProductPage'
-import AboutPage from './Pages/AboutPage'
-import BagPage from './Pages/BagPage'
-import AccountPage from './Pages/AccountPage';
-import LoginPage from './Pages/LoginPage'
+import UserHomePage from './pages/UserHomePage'
+import ProductPage from './pages/ProductPage'
+import AboutPage from './pages/AboutPage'
+import BagPage from './pages/BagPage'
+import AccountPage from './pages/AccountPage';
+import LoginPage from './pages/LoginPage'
 import UserNavbar from './components/UserNavbar'
 import ReleaseBanner from './components/ReleaseBanner'
  
