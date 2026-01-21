@@ -53,3 +53,23 @@
     width: 150px;
   }
 }
+
+.off-canvas-nav-link {
+  color: white !important;
+  transition: background-color 0.2s ease-in-out; 
+  border-radius: 5px; /* Optional: for rounded corners */
+  padding: 8px 15px; /* Adjust padding as needed */
+  margin: 0.5rem 0;
+}
+
+.offcanvas-nav-link:hover {
+  background-color: white !important; 
+  color: black !important; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional: Style for the active link */
+.offcanvas-nav-link.active {
+  background-color: #f0f0f0;
+  color: #000;
+}

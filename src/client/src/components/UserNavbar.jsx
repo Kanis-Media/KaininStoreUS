@@ -124,10 +124,13 @@ const UserNavbar = React.forwardRef((props, ref) => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               {/* Main navigation links */}
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link as={Link} to="/" onClick={handleClose}>Home</Nav.Link>
-                <Nav.Link href="#link" onClick={handleClose}>Link</Nav.Link>
-                <Nav.Link href="#about" onClick={handleClose}>About</Nav.Link>
+              <Nav className="flex-column justify-content-end flex-grow-1 pe-3">
+                <Nav.Link className="off-canvas-nav-link"as={Link} to="/" 
+                          onClick={handleClose}>Home</Nav.Link>
+                <Nav.Link className="off-canvas-nav-link" as={Link} to="/products"
+                           onClick={handleClose}>Products</Nav.Link>
+                <Nav.Link className="off-canvas-nav-link"as={Link} to="/about"
+                           onClick={handleClose}>About</Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Offcanvas>

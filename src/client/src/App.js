@@ -24,6 +24,10 @@ function AppLayout() {
 }
 
 const App = () => {
+  // const [fontsLoaded] = useFonts({
+  //   Poppins_400Regular,
+  //   Poppins_700Bold,
+  // });
   return (
     <BrowserRouter>
       <Routes>
