@@ -6,15 +6,18 @@ import BagPage from './Pages/BagPage'
 import AccountPage from './Pages/AccountPage';
 import LoginPage from './Pages/LoginPage'
 import UserNavbar from './components/UserNavbar'
+import ReleaseBanner from './components/ReleaseBanner'
+// import "@fontsource/poppins/400.css";
 
-import { useFonts } from 'expo-font';
-import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+
+// import { useFonts } from 'expo-font';
+// import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
   
 // import { handlers } from "@/auth" // Referring to the auth.ts we just created
 // export const { GET, POST } = handlers
  
 //app layout fn that returns a componet holding the navbar 
-function AppLayout() {
+function AppLayout() {git a
   const location = useLocation();
   const showNavbar = location.pathname !== '/login'; // Adjust '/login' if your login path is different
 
@@ -27,10 +30,10 @@ function AppLayout() {
 }
 
 const App = () => {
-  const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_700Bold,
-  });
+  // const [fontsLoaded] = useFonts({
+  //   Poppins_400Regular,
+  //   Poppins_700Bold,
+  // });
   return (
     <BrowserRouter>
       <Routes>
