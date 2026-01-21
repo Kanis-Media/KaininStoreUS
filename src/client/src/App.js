@@ -6,6 +6,10 @@ import BagPage from './Pages/BagPage'
 import AccountPage from './Pages/AccountPage';
 import LoginPage from './Pages/LoginPage'
 import UserNavbar from './components/UserNavbar'
+
+import { useFonts } from 'expo-font';
+import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+  
 // import { handlers } from "@/auth" // Referring to the auth.ts we just created
 // export const { GET, POST } = handlers
  
@@ -23,6 +27,10 @@ function AppLayout() {
 }
 
 const App = () => {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+  });
   return (
     <BrowserRouter>
       <Routes>

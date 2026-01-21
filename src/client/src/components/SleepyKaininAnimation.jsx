@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Grid, Box, Button, Typography } from '@mui/material'
 import '../styles/Animation.css';
+import '../styles/App.css';
 
 
 /*Abstarct component which allows for multiple frmaer motion images to be animated in the same way using framer motion  */
@@ -18,7 +19,7 @@ const SleepyKaininAnimation = ({ images, containerVariants, itemVariants, onAnim
 
   return (
     <motion.div
-      className="flex-container"
+      // className="flex-container"
       variants={containerVariants}
       initial="hidden"
       animate="visible"

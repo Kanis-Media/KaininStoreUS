@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import {isZeroValueString, motion} from 'framer-motion';
+import {motion} from 'framer-motion';
 import { Link } from "react-router-dom";
+import {Row, Col} from "react-bootstrap"
 import SleepyKaininAnimation  from "./SleepyKaininAnimation";
 import infKainin from '../assets/InfKainin.png'
 import CloudKainin from "../assets/homeAnimation/CloudKainin.png"
@@ -8,9 +9,8 @@ import bubOne from "../assets/homeAnimation/bubbleStyle1.png"
 import bubTwo from "../assets/homeAnimation/bubbleStyle2.png"
 import bubThree from "../assets/homeAnimation/bubbleStyle3.png"
 import bubFive from "../assets/homeAnimation/bubbleStyle5.png"
-import infoEye from "../assets/InfoEye.png"
 import "../styles/Animation.css"
-import "../styles/HomePage.css"
+import '../styles/App.css';
 
 const SleepyKaininImages = [
   { id: 1, src: CloudKainin, alt: 'Kainin Leaning on Cloud', className: 'img-cloud'},
@@ -40,61 +40,44 @@ const KaininItemVariants = {
   },
 };
 
-
 const SequentialAnimations = () => {
   const [firstAnimationComplete, setFirstAnimationComplete] = useState(false);
-
    return (
     <>
         {/*Render infKainin only if MainHomeAnimation has completed */}
-        {firstAnimationComplete && (
+        
+          <Row>
+            <Col xs={12}>
               <motion.div
                 className="flex-container"
                 initial={{ opacity: 0, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ delay: 4.2, duration: 0.8, ease: "easeOut" }}
               >
-                  <Link to="/products">
+                  <Link to="/products" className="inf-link">
                     <img
                       src={infKainin}
-                      className="img-fluid mx-auto d-block inf-image"
+                      className="inf-image"
                       alt="Infinite Text w/ Kainin"
                     />
                   </Link>
               </motion.div>
-        )}
-
+            </Col>
+          </Row>
 
       {/* Main Animation Section */}
-
-      <div className="flex-container">
-        {/* {firstAnimationComplete &&
-          <motion.div>
-            <motion.image
-                style={{float: "left"}}
-                initial={{ scale: 0, opacity: 0, y: 0 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                transition={{ duration: 1, ease: "easeIn" }}
-              >
-                  <img
-                    src={infoEye}
-                    className="img-fluid info-eye"
-                    alt="Info Eye"
-                  />
-              </motion.image>
-          </motion.div>
-        
-        } */}
-         <SleepyKaininAnimation 
-              images={SleepyKaininImages}
-              containerVariants = {KaininContainerVariants}
-              itemVariants = {KaininItemVariants}
-              onAnimationComplete={() => setFirstAnimationComplete(true)}
-            />
-      </div>
-        
-   
-
+      <Row className="animation-row">
+        <Col xs={12}>
+        <div className="flex-container2">
+          <SleepyKaininAnimation 
+                images={SleepyKaininImages}
+                containerVariants = {KaininContainerVariants}
+                itemVariants = {KaininItemVariants}
+                onAnimationComplete={() => setFirstAnimationComplete(true)}
+              />
+        </div>
+        </Col>
+      </Row>
     </>
   );
 };
