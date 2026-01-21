@@ -17,7 +17,7 @@ function AppLayout() {
   return (
     <div className="full-screen-container px-0" style={{overflow: "hidden"}}>
       {showNavbar && <UserNavbar />} {/*Render navbar if is not login page */}
-      {showReleaseBanner && <ReleaseBanner />}
+      {showReleaseBanner && <ReleaseBanner />} {/* Render release banner only on home page */}
       <Outlet /> {/* Renders the matched child route component */}
     </div>
   );
