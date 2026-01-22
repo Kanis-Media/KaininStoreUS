@@ -1,7 +1,16 @@
 .about-card{
     display: flex;
-    width: 80vw;
-    height: 40vh;
+    width: 100vw;
+    height: 45vh;
+    opacity: 0.9;
+    flex-direction: column;
+    margin-bottom: 30%;
+    background-color: #3e4f2b !important;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .about-scroll-wrapper {
