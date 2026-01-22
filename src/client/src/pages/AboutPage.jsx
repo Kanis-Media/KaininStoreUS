@@ -4,14 +4,16 @@ import {Container, Card} from 'react-bootstrap';
 import {AnimatePresence, motion} from 'framer-motion'
 import { Link } from "react-router-dom";
 import '../styles/App.css'
+import '../styles/About.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function AboutPage(){
   return(
     <Container fluid className="full-screen-container px-0">
+      <div className="about-scroll-wrapper">
        {/* Slide in right */}
-       <motion.div style={{display:'flex', alignContent: 'flex-start' }}>
-        <Card style={{ width: '80vw', height: '40vh' }}>
+       <motion.div style={{display:'flex', justifyContent: 'flex-end' }}>
+        <Card className="about-card" style={{alignSelf: 'flex-end'}}>
           <Card.Body>
             <Card.Title>Card Title</Card.Title>
             <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
@@ -26,8 +28,8 @@ function AboutPage(){
         </motion.div>
 
        {/* Slide in left on scroll */}
-        <motion.div style={{display: 'flex', alignContent: 'flex-end'}}>
-        <Card style={{ width: '80vw', height: '40vh' }}>
+        <motion.div style={{display: 'flex', justifyContent: 'flex-start'}}>
+        <Card className="about-card">
           <Card.Body>
             <Card.Title>Card Title</Card.Title>
             <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
@@ -42,12 +44,18 @@ function AboutPage(){
         </motion.div>
 
         {/* Slide in right on scroll */}
-        <motion.div
+        <motion.div style={{display: 'flex', justifyContent:'flex-end'}}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}>
-          <h1>Future Products and Plans</h1>
-          <p>Evo Archive</p>
+          <Card className="about-card">
+            <Card.Body>
+              <Card.Title>Kanis Media Future Products and Plans</Card.Title>
+              <Card.Text>Evo Archive</Card.Text>
+            </Card.Body>
+          </Card>
+            
+
         </motion.div>
 
         {/* Slide in up on scroll */}
@@ -55,13 +63,15 @@ function AboutPage(){
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}>
-            
-          <p>Interact With US </p>
-          <Link>Instagram</Link>
-          <Link>TikTok</Link>
+          <Card className="about-card">
+            <Card.Body>
+              <p>Interact With US </p>
+              <Link>Instagram</Link>
+              <Card.Link>TikTok</Card.Link>
+            </Card.Body>
+          </Card>
         </motion.div>
-
-
+      </div>
     </Container>);
 }
 

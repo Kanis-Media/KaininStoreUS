@@ -1,0 +1,11 @@
+.about-card{
+    display: flex;
+    width: 80vw;
+    height: 40vh;
+}
+
+.about-scroll-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
