@@ -16,7 +16,8 @@ import { useRef } from "react";
 *@param {Object} props.style - Additional styles to apply to the motion div
 *@returns {JSX.Element} The DirectionalReveal component
 */
-function DirectionalReveal({ variants = {}, direction = "left", children, style }) {
+
+function DirectionalReveal({ variants = {}, direction = "left", children, className, style }) {
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -29,21 +30,21 @@ function DirectionalReveal({ variants = {}, direction = "left", children, style 
     scrollYProgress,
     [0, 1],
     direction === "left"
-      ? ["-100px", "0px"]
+      ? ["-30vw", "0px"]
       : direction === "right"
-      ? ["100px", "0px"]
+      ? ["30vw", "0px"]
       : ["0px", "0px"]
-  ); //sorry for this disgusting nested ternary
+  ); 
 
   const y = useTransform(
     scrollYProgress,
     [0, 1],
     direction === "up"
-        ? ["100px", "0px"]
+        ? ["30vh", "0px"]
         : direction === "down"
-        ? ["-100px", "0px"]
+        ? ["30vh", "0px"]
         : ["0px", "0px"]
-    );
+    ); //sorry for this disgusting nested ternary x2 
 
 
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -54,7 +55,8 @@ function DirectionalReveal({ variants = {}, direction = "left", children, style 
         whileInView={variants.whileInView}
         viewport={variants.viewport}
         transition={variants.transition}
-        style={{ x, y, opacity }}
+        style={{x, y, opacity, ...style, }}
+        className={className}
     >
       {children}
     </motion.div>

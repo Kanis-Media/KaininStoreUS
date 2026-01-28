@@ -8,30 +8,23 @@ import '../styles/App.css'
 import '../styles/About.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-const MissionStatementVariants = {
-  initial: { opacity: 0 },
-  whileInView: {opacity: 1},
-  viewport: { once: true},
-  transition: { duration: 0.7, ease: "easeOut" }
-};
 
 const BackgroundtVariants = {
-  initial: { opacity: 0 },
+  initial: { opacity: 0, x: "-100vw" },
   whileInView: { opacity: 1},
-  viewport: { once: true},
+  viewport: { once: false, amount: 0.95 },
   transition: { duration: 0.7, ease: "easeOut" }
 };
 
 const FutureVariants = {
-  initial: { opacity: 0 },
+  initial: { opacity: 0, x: "100vw" },
   whileInView: { opacity: 1},
-  viewport: { once: true },
+  viewport: { once: false },
   transition: { duration: 0.7, ease: "easeOut" }
 };
 
-
 const SocialVariants = {
-  initial: { opacity: 0 },
+  initial: { opacity: 0, x: "-100vh" },
   whileInView: { opacity: 1},
   viewport: { once: false},
   transition: { duration: 0.7, ease: "easeOut" }
@@ -43,42 +36,33 @@ function AboutPage(){
     <Container fluid className="full-screen-container px-0">
       <div className="about-scroll-wrapper">
        {/* Slide in right */}
-       {/* <motion.div
-        
-       > */}
        <motion.div
-        initial={{ opacity: 0, x: 100 }}
+        initial={{ opacity: 0, x: "100vw" }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 3, ease: "easeInOut" }}
+        className="about-card" 
        >
-          <Card className="about-card" style={{alignSelf: 'flex-end'}}>
-            <Card.Body>
-              <Card.Title>Mission Statement</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-              <Card.Text>
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </Card.Text>
-              <Card.Link href="#">Card Link</Card.Link>
-              <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
-          </Card>
+          <h1>Mission Statement</h1>
+          <sub className="mb-2 text-muted">Card Subtitle</sub>
+          <p>
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
         </motion.div>
 
        {/* Slide in left on scroll */}
-        <DirectionalReveal variants={BackgroundtVariants} direction="left">
-          <Card className="about-card" style={{display: 'flex', justifyContent: 'flex-start'}}>
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-              <Card.Text>
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
-              </Card.Text>
-              <Card.Link href="#">Card Link</Card.Link>
-              <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
-          </Card>
+        <DirectionalReveal 
+          variants={BackgroundtVariants} 
+          direction="left" 
+          className="about-card"
+          style={{display: 'flex', justifyContent: 'flex-end'}}
+        >
+          <h1>Mission Statement</h1>
+          <sub className="mb-2 text-muted">Card Subtitle</sub>
+          <p>
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
         </DirectionalReveal>
 
         {/* Slide in right on scroll */}
