@@ -118,34 +118,50 @@ async function updateVariationSupportTables(catalogObject) {
 async function updateDatabaseInventory(catalogObject) {
   console.log(`Updating inventory for item ${catalogObject.item_data.name}`);
 
+  // Build a map once when you fetch the catalog
+  const categoryMap = {};
+  for (const obj of catalogObjects) {
+    if (obj.type === "CATEGORY") {
+      categoryMap[obj.id] = obj.category_data.name;
+    }
+  }
+
+
   const productSquareID = catalogObject.id;
   const productName = catalogObject.item_data.name;
   const productDescription = catalogObject.item_data.description || null;
   const productImageURL = catalogObject.item_data.image_url || null;
   const productPrice = catalogObject.item_data.variations[0].item_variation_data.price_money?.amount || 0;
+  const categoryId = catalogObject.item_data.category_id || null; 
+  const categoryName = categoryId ? categoryMap[categoryId] : null;
 
   try {
     const pool = await sql.connect(dbConfig);
 
-    //
-    // 1. UPSERT PRODUCT
-    //
+    //UPSERT PRODUCT
     const productReq = pool.request();
     productReq.input("SquareID", sql.VarChar, productSquareID);
     productReq.input("Name", sql.VarChar, productName);
     productReq.input("Description", sql.VarChar, productDescription);
     productReq.input("ImageURL", sql.VarChar, productImageURL);
     productReq.input("Price", sql.Money, productPrice);
+    productReq.input("Category", sql.NVarChar(100), categoryName);
+
 
     await productReq.query(`
       MERGE INTO Products AS target
-      USING (SELECT @SquareID AS SquareID) AS source
-      ON target.SquareID = source.SquareID
-      WHEN MATCHED THEN
-        UPDATE SET Name=@Name, Description=@Description, ImageURL=@ImageURL, Price=@Price
-      WHEN NOT MATCHED THEN
-        INSERT (SquareID, Name, Description, ImageURL, Price)
-        VALUES (@SquareID, @Name, @Description, @ImageURL, @Price);
+        USING (SELECT @SquareID AS SquareID) AS source
+        ON target.SquareID = source.SquareID
+        WHEN MATCHED THEN
+          UPDATE SET 
+            Name=@Name, 
+            Description=@Description, 
+            ImageURL=@ImageURL, 
+            Price=@Price,
+            Category=@Category
+        WHEN NOT MATCHED THEN
+          INSERT (SquareID, Name, Description, ImageURL, Price, Category)
+          VALUES (@SquareID, @Name, @Description, @ImageURL, @Price, @Category);
     `);
 
     const productIdResult = await pool.request()
@@ -174,9 +190,7 @@ async function updateDatabaseInventory(catalogObject) {
       `);
     }
 
-    //
-    // 6. UPSERT EACH VARIATION
-    //
+    // UPSERT EACH VARIATION
     for (const variation of catalogObject.item_data.variations) {
       const variationSquareID = variation.id;
       const sku = variation.item_variation_data.sku;
@@ -187,9 +201,6 @@ async function updateDatabaseInventory(catalogObject) {
       const optionTypeName = variation.type;
       const optionValueName = variation.item_variation_data.name;
 
-      //
-      // Resolve ProductOptionID
-      //
       const optionReq = pool.request();
       optionReq.input("ProductID", sql.Int, productID);
       optionReq.input("OptionTypeName", sql.VarChar, optionTypeName);
@@ -207,9 +218,7 @@ async function updateDatabaseInventory(catalogObject) {
 
       const productOptionID = optionResult.recordset[0]?.ProductOptionID || null;
 
-      //
       // UPSERT VARIATION
-      //
       const varReq = pool.request();
       varReq.input("SquareID", sql.VarChar, variationSquareID);
       varReq.input("SKU", sql.VarChar, sku);
