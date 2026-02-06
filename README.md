@@ -13,7 +13,33 @@ Auth0 - External authentication provider
 
 KaininStoreUS SQL Database 
 
-## Testing webhooks 
+## Devleopment testing enviorment (2/5/2026)
+
+An azure app service with local git CD can be used for a preview environment for backend changes with the test static webapp can be used for the front end
+
+to commit to the app service 
+
+```sh
+git remote add azure https://<username>@<app>.scm.azurewebsites.net/<app>.git
+
+git push azure HEAD:master
+```
+
+If you want to upload to the front end you can use the SWA cli
+
+```sh
+# Install az SWA cli globally if you have not already
+npm install -g @azure/static-web-apps-cli
+
+# cd into build file and deploy 
+cd build/
+swa deploy
+```
+
+
+
+
+## Testing webhooks with ngrok 
 
 to test webhooks utilize ngrok and the desired senders subscription sign up (Ex: sqaure) to facilate a network tunnel to easily create a public URL
 
