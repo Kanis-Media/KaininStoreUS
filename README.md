@@ -19,7 +19,7 @@ An azure app service with local git CD can be used for a preview environment for
 
 to commit to the app service 
 
-```sh
+```console
 git remote add azure https://<username>@<app>.scm.azurewebsites.net/<app>.git
 
 git subtree push --prefix path/to/yourAppService azure HEAD:master
@@ -27,7 +27,7 @@ git subtree push --prefix path/to/yourAppService azure HEAD:master
 
 If you want to upload to the front end you can use the SWA cli
 
-```sh
+```console
 # Install az SWA cli globally if you have not already
 npm install -g @azure/static-web-apps-cli
 
@@ -37,11 +37,27 @@ swa deploy
 ```
 
 
-
-
 ## Testing webhooks with ngrok 
 
 to test webhooks utilize ngrok and the desired senders subscription sign up (Ex: sqaure) to facilate a network tunnel to easily create a public URL
+
+### ngrok config.yml file example 
+```yml
+version: "3"
+tunnels:
+    frontend:
+        proto: http
+        addr: 3000
+        host_header: "localhost:3000"
+        inspect: false
+    backend:
+        proto: http
+        addr: 4000
+        host_header: "localhost:4000"
+        inspect: false
+agent:
+    authtoken: # Your auuth token (really should be added using the terminal cmd ngrok config add-authtoken authtoken) 
+```
 
 
 ## React Node Template Notes 
