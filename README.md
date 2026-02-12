@@ -22,7 +22,7 @@ to commit to the app service
 ```sh
 git remote add azure https://<username>@<app>.scm.azurewebsites.net/<app>.git
 
-git push azure HEAD:master
+git subtree push --prefix path/to/yourAppService azure HEAD:master
 ```
 
 If you want to upload to the front end you can use the SWA cli
