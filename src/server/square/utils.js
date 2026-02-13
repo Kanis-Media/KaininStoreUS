@@ -1,8 +1,8 @@
-const { Client, Environment } = require('square');
+const { Client, Environment, SquareClient } = require('square');
 
-const client = new Client({
-  accessToken: process.env.SQUARE_ACCESS_TOKEN, // Make sure to set this environment variable
-  environment: Environment.Sandbox, // Or Environment.Production
+const client = new SquareClient({
+ token: process.env.SQUARE_ACCESS_TOKEN, // Make sure to set this environment variable
+  // environment: Environment.Sandbox, // Or Environment.Production
 });
 
 async function getVariationCount(itemId) {

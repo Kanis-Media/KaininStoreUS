@@ -1,4 +1,4 @@
-const { getSecretValue } =  require("./az-utils.js")
+const { getSecretValue } = require("./az-utils.js")
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -15,6 +15,9 @@ app.use(cookieParser());
 
 // mount our api router here
 app.use("/api", apiRouter);
+const squareWebhook = require("./square/webhook-events.js");
+app.use("/", squareWebhook);
+
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));
@@ -30,7 +33,7 @@ app.get("*", (req, res) => {
 //  Login to saure api 
 
 // const sqaureAuthResponse = axios.get('https://connect.squareup.com/v2/customers', {
-//   headers: {
+//   headers: {1
 //     'Authorization': getSecretValue('SqaureSandboxAccessToken'),
 //     'Content-Type': 'application/json'
 //   }

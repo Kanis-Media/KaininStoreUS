@@ -1,24 +1,45 @@
 const express = require('express');
-const { Client, SignatureVerifier } = require('square');
+const { SquareClient, SignatureVerifier } = require('square');
 const crypto = require('crypto');
-import azutils from './az-utils.js';
+const azutils = require('../az-utils.js');
 const sql = require('mssql')
-import { dbConfig } from './routes/api.js';
-import './square-utils.js';
-import { getVariationCount } from './square-utils.js';
+const { dbConfig } = require('../routes/api.js');
+const squareUtils = require('./utils.js');
+const { getVariationCount } = require('./utils.js');
+const http = require('http');
+const env = require('../.env');
+const { WebhooksHelper } =  require("square");
 
-const app = express();
+// The URL where event notifications are sent.
+const NOTIFICATION_URL = ' https://potenty-shu-unreceptively.ngrok-free.dev'; //should prob have a config file that switches when app is in prod or dev 
+// The signature key defined for the subscription.
+const SIGNATURE_KEY = env.SquareSigKey;
+
+const router = express.Router();
+router.use(express.raw({ type: 'application/json' }));
+
 // Use express.raw({ type: 'application/json' }) to get the raw body
 // needed for signature verification
-app.use(express.raw({ type: 'application/json' })); 
+router.use(express.raw({ type: 'application/json' })); 
 
-const squareClient = new Client({
-  accessToken: azutils.getSecretValue("SquareDevToken"),
-  environment: 'sandbox', // 'sandbox' or 'production'
+const squareClient = new SquareClient({
+  token: azutils.getSecretValue("SquareDevToken"),
+  // environment: 'sandbox', // 'sandbox' or 'production'
 });
 
 // Get this from the Webhooks section of your Developer Dashboard
-const signatureVerifier = new SignatureVerifier(process.env.SQUARE_SIGNATURE_KEY); 
+// const signatureVerifier = new SignatureVerifier(process.env.SQUARE_SIGNATURE_KEY); //founda a proper example of how to dop vaslidation I think -NH
+
+// Generate a signature from the notification url, signature key,
+// and request body and compare it to the Square signature header.
+async function isFromSquare(signature, body) {
+  return await WebhooksHelper.verifySignature({
+      requestBody: body,
+      signatureHeader: signature,
+      signatureKey: SIGNATURE_KEY,
+      notificationUrl: NOTIFICATION_URL
+    });
+}
 
 
 app.post('/webhook-endpoint', async (req, res) => {
@@ -27,7 +48,7 @@ app.post('/webhook-endpoint', async (req, res) => {
   const requestUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
   const rawBody = req.body.toString(); // Get the raw body as a string
 
-  if (!signatureVerifier.isValidSignature(rawBody, hmacSignature, requestUrl)) {
+  if (! await isFromSquare(hmacSignature, rawBody)) {
     return res.status(401).send('Invalid Signature');
   }
 
@@ -59,6 +80,11 @@ app.post('/webhook-endpoint', async (req, res) => {
 });
 
 async function updateVariationSupportTables(catalogObject) {
+
+  //maybe can help 
+  console.log("Webhook hit"); 
+  debugger;
+
   console.log(`Updating DB for item ${catalogObject.item_data.name}`);
 
   const variations = catalogObject.item_data.variations;
@@ -246,3 +272,6 @@ async function updateDatabaseInventory(catalogObject) {
     sql.close();
   }
 }
+
+
+module.exports = router;
