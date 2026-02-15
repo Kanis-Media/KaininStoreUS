@@ -1,26 +1,18 @@
 const express = require('express');
-const { SquareClient, SignatureVerifier } = require('square');
-const crypto = require('crypto');
+const { SquareClient, SignatureVerifier, CatalogObject } = require('square');
+// const crypto = require('crypto');
 const azutils = require('../az-utils.js');
 const sql = require('mssql')
 const { dbConfig } = require('../routes/api.js');
 const squareUtils = require('./utils.js');
 const { getVariationCount } = require('./utils.js');
-const http = require('http');
-const env = require('../.env');
+require('dotenv').config()
 const { WebhooksHelper } =  require("square");
 
-// The URL where event notifications are sent.
-const NOTIFICATION_URL = ' https://potenty-shu-unreceptively.ngrok-free.dev'; //should prob have a config file that switches when app is in prod or dev 
-// The signature key defined for the subscription.
-const SIGNATURE_KEY = env.SquareSigKey;
-
 const router = express.Router();
-router.use(express.raw({ type: 'application/json' }));
-
 // Use express.raw({ type: 'application/json' }) to get the raw body
 // needed for signature verification
-router.use(express.raw({ type: 'application/json' })); 
+router.use(express.raw({ type: 'application/json' }));
 
 const squareClient = new SquareClient({
   token: azutils.getSecretValue("SquareDevToken"),
@@ -36,24 +28,21 @@ async function isFromSquare(signature, body) {
   return await WebhooksHelper.verifySignature({
       requestBody: body,
       signatureHeader: signature,
-      signatureKey: SIGNATURE_KEY,
-      notificationUrl: NOTIFICATION_URL
+      signatureKey: process.env.SQUARE_WEBHOOK_SIGNATURE_KEY,
+      notificationUrl: process.env.NOTIFICATION_URL,
     });
 }
 
+router.post('/webhook-endpoint', async (req, res) => {
+  //Verify the request 
+  const signatureHeader = req.get('x-square-hmacsha256-signature');
+  const body = JSON.stringify(req.body); //do not use to string for JSON parsing 
 
-app.post('/webhook-endpoint', async (req, res) => {
-  // 1. Verify the notification's authenticity
-  const hmacSignature = req.get('X-Square-Signature');
-  const requestUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-  const rawBody = req.body.toString(); // Get the raw body as a string
-
-  if (! await isFromSquare(hmacSignature, rawBody)) {
+  if (! await isFromSquare(signatureHeader, body)) {
     return res.status(401).send('Invalid Signature');
   }
 
-  // 2. Parse the JSON body after verification
-  const notification = JSON.parse(rawBody); 
+  const notification = JSON.parse(req.body); 
   const { type, data } = notification;
 
   // 3. Process the event
@@ -61,7 +50,6 @@ app.post('/webhook-endpoint', async (req, res) => {
     switch (type) {
       case 'inventory.count.updated':
         console.log(`Inventory updated for location: ${data.location_id}`);
-        // Use the SDK to get more details if needed
         const { result } = await squareClient.catalog.retrieveCatalogObject({
           objectId: data.object.id,
         });
@@ -80,11 +68,6 @@ app.post('/webhook-endpoint', async (req, res) => {
 });
 
 async function updateVariationSupportTables(catalogObject) {
-
-  //maybe can help 
-  console.log("Webhook hit"); 
-  debugger;
-
   console.log(`Updating DB for item ${catalogObject.item_data.name}`);
 
   const variations = catalogObject.item_data.variations;
@@ -164,7 +147,6 @@ async function updateDatabaseInventory(catalogObject) {
   try {
     const pool = await sql.connect(dbConfig);
 
-    //UPSERT PRODUCT
     const productReq = pool.request();
     productReq.input("SquareID", sql.VarChar, productSquareID);
     productReq.input("Name", sql.VarChar, productName);

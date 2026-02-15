@@ -11,7 +11,8 @@
     "axios": "^1.12.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "express": "^4.21.2",
+    "dotenv": "^17.3.1",
+    "express": "^4.22.1",
     "morgan": "^1.10.1",
     "mssql": "^11.0.1",
     "square": "^43.2.1"
