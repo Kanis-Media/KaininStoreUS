@@ -9,7 +9,14 @@ const axios = require('axios');
 const app = express();
 
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    // We store the raw buffer as a string on the request object
+    // Square requires the exact raw body for signature verification
+    req.rawBody = buf.toString();
+  }
+}));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
@@ -28,17 +35,6 @@ app.get("*", (req, res) => {
   console.log("req.path", req.path);
   res.sendFile(path.join(__dirname + "../client/build/index.html"));
 });
-
-
-//  Login to saure api 
-
-// const sqaureAuthResponse = axios.get('https://connect.squareup.com/v2/customers', {
-//   headers: {1
-//     'Authorization': getSecretValue('SqaureSandboxAccessToken'),
-//     'Content-Type': 'application/json'
-//   }
-// });
-// console.log(sqaureAuthResponse.data);
 
 
 module.exports = app;

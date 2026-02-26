@@ -19,51 +19,46 @@ const squareClient = new SquareClient({
   // environment: 'sandbox', // 'sandbox' or 'production'
 });
 
-// Get this from the Webhooks section of your Developer Dashboard
-// const signatureVerifier = new SignatureVerifier(process.env.SQUARE_SIGNATURE_KEY); //founda a proper example of how to dop vaslidation I think -NH
-
-// Generate a signature from the notification url, signature key,
-// and request body and compare it to the Square signature header.
-async function isFromSquare(signature, body) {
-  return await WebhooksHelper.verifySignature({
-      requestBody: body,
+router.post('/webhook-endpoint', async (req, res) => {
+  try {
+    const signature = req.headers['x-square-hmacsha256-signature'];
+    
+    // 1. Verify the signature using the rawBody we captured in app.js
+    const isValid = await WebhooksHelper.verifySignature({
+      requestBody: req.rawBody,
       signatureHeader: signature,
       signatureKey: process.env.SQUARE_WEBHOOK_SIGNATURE_KEY,
-      notificationUrl: process.env.NOTIFICATION_URL,
+      notificationUrl: 'https://potenty-shu-unreceptively.ngrok-free.dev',
     });
-}
 
-router.post('/webhook-endpoint', async (req, res) => {
-  //Verify the request 
-  const signatureHeader = req.get('x-square-hmacsha256-signature');
-  const body = JSON.stringify(req.body); //do not use to string for JSON parsing 
+    if (!isValid) {
+      console.error("Invalid Square Signature");
+      return res.status(403).send("Unauthorized");
+    }
 
-  if (! await isFromSquare(signatureHeader, body)) {
-    return res.status(401).send('Invalid Signature');
-  }
+    // 2. Signature is valid, now process the parsed body
+    const { type, data } = req.body;
 
-  const notification = JSON.parse(req.body); 
-  const { type, data } = notification;
-
-  // 3. Process the event
-  try {
     switch (type) {
       case 'inventory.count.updated':
         console.log(`Inventory updated for location: ${data.location_id}`);
         const { result } = await squareClient.catalog.retrieveCatalogObject({
           objectId: data.object.id,
         });
-        // Update Varation support tables and inventory through product varations in the database
         await updateVariationSupportTables(result.object);
         await updateDatabaseInventory(result.object); 
         break;
       default:
         console.log(`Received unhandled event type: ${type}`);
     }
-    res.status(200).send('Event received and processed');
+
+    // 3. Always return a 200 to Square quickly
+    res.status(200).send("OK");
+
   } catch (error) {
-    console.error('Error processing webhook event:', error);
-    res.status(500).send('Internal Server Error');
+    console.error("Webhook processing error:", error);
+    // Even if processing fails, Square expects a response
+    res.status(500).send("Internal Server Error");
   }
 });
 
