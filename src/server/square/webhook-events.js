@@ -1,4 +1,3 @@
-const express = require('express');
 const { SquareClient, SignatureVerifier, CatalogObject } = require('square');
 // const crypto = require('crypto');
 const azutils = require('../az-utils.js');
@@ -9,9 +8,8 @@ const { getVariationCount } = require('./utils.js');
 require('dotenv').config()
 const { WebhooksHelper } =  require("square");
 
+const express = require('express');
 const router = express.Router();
-// Use express.raw({ type: 'application/json' }) to get the raw body
-// needed for signature verification
 router.use(express.raw({ type: 'application/json' }));
 
 const squareClient = new SquareClient({
@@ -21,14 +19,12 @@ const squareClient = new SquareClient({
 
 router.post('/webhook-endpoint', async (req, res) => {
   try {
-    const signature = req.headers['x-square-hmacsha256-signature'];
-    
-    // 1. Verify the signature using the rawBody we captured in app.js
-    const isValid = await WebhooksHelper.verifySignature({
-      requestBody: req.rawBody,
-      signatureHeader: signature,
+    requestBody = req.rawBody; // This is the raw body as a string, captured in app.js
+    const isValid = WebhooksHelper.verifySignature({
+      requestBody,
+      signatureHeader: req.headers['x-square-hmacsha256-signature'],
       signatureKey: process.env.SQUARE_WEBHOOK_SIGNATURE_KEY,
-      notificationUrl: 'https://potenty-shu-unreceptively.ngrok-free.dev',
+      notificationUrl: "https://potenty-shu-unreceptively.ngrok-free.dev/webhook-endpoint",
     });
 
     if (!isValid) {

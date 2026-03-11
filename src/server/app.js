@@ -16,15 +16,18 @@ app.use(express.json({
     req.rawBody = buf.toString();
   }
 }));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
+
+const squareWebhook = require("./square/webhook-events.js");
+app.use("/webhook-endpoint", express.raw({ type: 'application/json' }), squareWebhook);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // mount our api router here
 app.use("/api", apiRouter);
-const squareWebhook = require("./square/webhook-events.js");
 app.use("/", squareWebhook);
-
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));
