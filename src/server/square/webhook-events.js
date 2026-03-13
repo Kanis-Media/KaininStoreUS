@@ -16,7 +16,7 @@ const squareClient = new SquareClient({
   environment: 'sandbox', // 'sandbox' or 'production'
 });
 
-router.post('/webhook-endpoint', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     requestBody = req.rawBody; // This is the raw body as a string, captured in app.js
     const isValid = WebhooksHelper.verifySignature({
