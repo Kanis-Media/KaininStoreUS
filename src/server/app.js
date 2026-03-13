@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // mount our api router here
 app.use("/api", apiRouter);
-app.use("/", squareWebhook);
+// app.use("/", squareWebhook);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../client/build")));

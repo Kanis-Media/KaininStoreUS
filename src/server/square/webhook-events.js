@@ -1,4 +1,4 @@
-const { SquareClient, SignatureVerifier, CatalogObject } = require('square');
+const { SquareClient, WebhooksHelper } = require('square');
 // const crypto = require('crypto');
 const azutils = require('../az-utils.js');
 const sql = require('mssql')
@@ -6,7 +6,6 @@ const { dbConfig } = require('../routes/api.js');
 const squareUtils = require('./utils.js');
 const { getVariationCount } = require('./utils.js');
 require('dotenv').config()
-const { WebhooksHelper } =  require("square");
 
 const express = require('express');
 const router = express.Router();
@@ -14,7 +13,7 @@ router.use(express.raw({ type: 'application/json' }));
 
 const squareClient = new SquareClient({
   token: azutils.getSecretValue("SquareDevToken"),
-  // environment: 'sandbox', // 'sandbox' or 'production'
+  environment: 'sandbox', // 'sandbox' or 'production'
 });
 
 router.post('/webhook-endpoint', async (req, res) => {
@@ -37,10 +36,17 @@ router.post('/webhook-endpoint', async (req, res) => {
 
     switch (type) {
       case 'inventory.count.updated':
-        console.log(`Inventory updated for location: ${data.location_id}`);
-        const { result } = await squareClient.catalog.retrieveCatalogObject({
-          objectId: data.object.id,
-        });
+        try{
+          const result = await squareClient.catalogApi.retrieveCatalogObject(
+            data.object.id,
+            true 
+          );
+        }
+        catch(error)
+        {
+          console.error("Error retrieving catalog object:", error);
+          return res.status(500).send("Error retrieving catalog object");
+        }
         await updateVariationSupportTables(result.object);
         await updateDatabaseInventory(result.object); 
         break;
