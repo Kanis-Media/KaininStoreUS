@@ -11,7 +11,7 @@ const express = require('express');
 const router = express.Router();
 router.use(express.raw({ type: 'application/json' }));
 
-const squareClient = new SquareClient({
+const client = new SquareClient({
   token: azutils.getSecretValue("SquareDevToken"),
   environment: 'sandbox', // 'sandbox' or 'production'
 });
@@ -36,20 +36,20 @@ router.post('/', async (req, res) => {
 
     switch (type) {
       case 'inventory.count.updated':
-        try{
-          const result = await squareClient.catalogApi.retrieveCatalogObject(
-            data.object.id,
-            true 
-          );
-        }
-        catch(error)
-        {
+        try {
+          const { result } = await client.catalogApi.retrieveCatalogObject({
+            objectId: data.object.id,
+            includeRelatedObjects: true
+          });
+
+          await updateVariationSupportTables(result.object);
+          await updateDatabaseInventory(result.object);
+        } catch (error) {
           console.error("Error retrieving catalog object:", error);
           return res.status(500).send("Error retrieving catalog object");
         }
-        await updateVariationSupportTables(result.object);
-        await updateDatabaseInventory(result.object); 
         break;
+
       default:
         console.log(`Received unhandled event type: ${type}`);
     }
