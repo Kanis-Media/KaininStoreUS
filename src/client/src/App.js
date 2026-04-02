@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation, Outlet  } from 'react-router-dom'
 import UserHomePage from './Pages/UserHomePage'
 import ProductPage from './Pages/ProductPage'
-import AboutPage from './Pages/AboutPage'
+import AboutPage from './Pages/EvoPage'
 import BagPage from './Pages/BagPage'
 import AccountPage from './Pages/AccountPage';
 import LoginPage from './Pages/LoginPage'
@@ -34,7 +34,7 @@ const App = () => {
         <Route element={<AppLayout />}>
           <Route path="/" element={<UserHomePage />} />
           <Route path="/products" element={<ProductPage />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/evo" element={<AboutPage />} />
           <Route path="/bag" element={<BagPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/authorize" />

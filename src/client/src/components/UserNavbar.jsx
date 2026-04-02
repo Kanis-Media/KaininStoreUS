@@ -64,7 +64,7 @@ const UserNavbar = React.forwardRef((props, ref) => {
                   <img src={LeafKainin} width="40" alt="Leaf" />
                 </Nav.Link>
             
-                <Nav.Link as={Link} to="/about">About US</Nav.Link>
+                <Nav.Link as={Link} to="/evo">Evo</Nav.Link>
                 <Nav.Link as={Link} to="/products">Products</Nav.Link>
               </Nav>
 
