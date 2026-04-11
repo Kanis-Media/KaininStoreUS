@@ -1,4 +1,4 @@
-const { SquareClient, WebhooksHelper } = require('square');
+const { SquareClient, WebhooksHelper, CatalogClient } = require('square');
 // const crypto = require('crypto');
 const azutils = require('../az-utils.js');
 const sql = require('mssql')
@@ -34,11 +34,15 @@ router.post('/', async (req, res) => {
     // 2. Signature is valid, now process the parsed body
     const { type, data } = req.body;
 
+    console.log(`Received Square webhook: ${type} for object ID ${data.object?.inventory_counts?.[0]?.catalog_object_id}`);
+    console.log('Webhook event data:', JSON.stringify(data, null, 2));
+    console.log("Full webhook data:", JSON.stringify(req.body, null, 2));
+
     switch (type) {
       case 'inventory.count.updated':
         try {
-          const { result } = await client.catalogApi.retrieveCatalogObject({
-            objectId: data.object.id,
+          const { result } = await client.catalog.batchGet({
+            objectIds: [data.object?.inventory_counts?.[0]?.catalog_object_id],
             includeRelatedObjects: true
           });
 
