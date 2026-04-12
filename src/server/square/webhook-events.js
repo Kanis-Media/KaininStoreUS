@@ -1,5 +1,4 @@
 const { SquareClient, WebhooksHelper, CatalogClient } = require('square');
-// const crypto = require('crypto');
 const azutils = require('../az-utils.js');
 const sql = require('mssql')
 const { dbConfig } = require('../routes/api.js');
@@ -13,7 +12,7 @@ router.use(express.raw({ type: 'application/json' }));
 
 const client = new SquareClient({
   token: azutils.getSecretValue("SquareDevToken"),
-  environment: 'sandbox', // 'sandbox' or 'production'
+  environment: 'https://connect.squareupsandbox.com/', // 'https://connect.squareupsandbox.com/' or 'https://connect.squareup.com/
 });
 
 router.post('/', async (req, res) => {
@@ -41,13 +40,18 @@ router.post('/', async (req, res) => {
     switch (type) {
       case 'inventory.count.updated':
         try {
-          const { result } = await client.catalog.batchGet({
+          const result = await client.catalog.batchGet({
             objectIds: [data.object?.inventory_counts?.[0]?.catalog_object_id],
             includeRelatedObjects: true
           });
 
-          await updateVariationSupportTables(result.object);
-          await updateDatabaseInventory(result.object);
+          objects = result. objects || [];
+
+          objects.forEach(async element => {
+              await updateVariationSupportTables(element);
+              await updateDatabaseInventory(element);
+          });
+          
         } catch (error) {
           console.error("Error retrieving catalog object:", error);
           return res.status(500).send("Error retrieving catalog object");
