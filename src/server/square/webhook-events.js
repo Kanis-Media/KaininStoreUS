@@ -37,20 +37,34 @@ router.post('/', async (req, res) => {
     console.log('Webhook event data:', JSON.stringify(data, null, 2));
     console.log("Full webhook data:", JSON.stringify(req.body, null, 2));
 
+    let result = {};
+
     switch (type) {
       case 'inventory.count.updated':
         try {
-          const result = await client.catalog.batchGet({
-            objectIds: [data.object?.inventory_counts?.[0]?.catalog_object_id],
-            includeRelatedObjects: true
-          });
+          try{
+            result = await client.catalog.batchGet({
+              objectIds: [data.object?.inventory_counts[0].catalog_object_id], //wrapped in  array for batchGet
+              includeRelatedObjects: true
+            });
+          } catch (err) {
+            console.error("Error fetching catalog object:", err);
+            return res.status(500).send("Error fetching catalog object");
+          }
+          if(result === null)
+          {
+            console.error("No result from catalog batchGet");
+            return res.status(500).send("No result from catalog batchGet");
+          }
 
-          objects = result. objects || [];
+          // var variationse = await client.catalog.list({ types: "ITEM"}).filter(obj => obj.type === "ITEM_VARIATION" 
+          //   && obj.item_data.name === reault.item_data.namwe).variations
 
-          objects.forEach(async element => {
-              await updateVariationSupportTables(element);
-              await updateDatabaseInventory(element);
-          });
+          const parentItem = result.related_objects.find(obj => obj.type === "ITEM");
+
+
+          await updateVariationSupportTables(parentItem);
+          await updateDatabaseInventory(parentItem);
           
         } catch (error) {
           console.error("Error retrieving catalog object:", error);
