@@ -60,6 +60,10 @@ router.post('/', async (req, res) => {
           // var variationse = await client.catalog.list({ types: "ITEM"}).filter(obj => obj.type === "ITEM_VARIATION" 
           //   && obj.item_data.name === reault.item_data.namwe).variations
 
+          if(result.related_objects)
+          {
+            throw new Error("No realted objects found");
+          }
           const parentItem = result.related_objects.find(obj => obj.type === "ITEM");
 
 
@@ -137,9 +141,10 @@ async function updateVariationSupportTables(catalogObject) {
     }
   } catch (err) {
     console.error("Database error:", err);
-  } finally {
-    sql.close();
   }
+  // finally {
+  //   sql.close();
+  // }
 }
 
 
@@ -148,7 +153,7 @@ async function updateDatabaseInventory(catalogObject) {
 
   // Build a map once when you fetch the catalog
   const categoryMap = {};
-  for (const obj of catalogObjects) {
+  for (const obj of catalogObject.related_objects) {
     if (obj.type === "CATEGORY") {
       categoryMap[obj.id] = obj.category_data.name;
     }
@@ -225,7 +230,7 @@ async function updateDatabaseInventory(catalogObject) {
       const allocated = variation.item_variation_data.allocated_quantity || 0;
       const inStock = available - allocated;
 
-      const optionTypeName = variation.type;
+      const optionTypeName = variation.item_variation_data.type;
       const optionValueName = variation.item_variation_data.name;
 
       const optionReq = pool.request();
@@ -269,9 +274,10 @@ async function updateDatabaseInventory(catalogObject) {
 
   } catch (err) {
     console.error("Database error:", err);
-  } finally {
-    sql.close();
   }
+  // finally {
+  //   sql.close();
+  // }
 }
 
 
