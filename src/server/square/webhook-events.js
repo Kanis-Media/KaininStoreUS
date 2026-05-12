@@ -1,4 +1,4 @@
-const { SquareClient, WebhooksHelper, CatalogClient } = require('square');
+const { SquareClient, WebhooksHelper, CatalogClient, Environment } = require('square');
 const azutils = require('../az-utils.js');
 const sql = require('mssql')
 const { dbConfig } = require('../routes/api.js');
@@ -11,8 +11,8 @@ const router = express.Router();
 router.use(express.raw({ type: 'application/json' }));
 
 const client = new SquareClient({
-  token: azutils.getSecretValue("SquareDevToken"),
-  environment: 'https://connect.squareupsandbox.com/', // 'https://connect.squareupsandbox.com/' or 'https://connect.squareup.com/
+  token: azutils.getSecretValue("SquareDevToken")
+   // environment: Environment.Sandbox, // 'https://connect.squareupsandbox.com/' or 'https://connect.squareup.com/
 });
 
 router.post('/', async (req, res) => {
@@ -42,52 +42,55 @@ router.post('/', async (req, res) => {
     switch (type) {
       case 'inventory.count.updated':
         try {
-          try{
-            result = await client.catalog.batchGet({
-              objectIds: [data.object?.inventory_counts[0].catalog_object_id], //wrapped in  array for batchGet
-              includeRelatedObjects: true
-            });
-          } catch (err) {
-            console.error("Error fetching catalog object:", err);
-            return res.status(500).send("Error fetching catalog object");
+          const variationId = data.object.inventory_counts[0].catalog_object_id;
+          
+          result = await client.catalog.batchGet({
+            objectIds: [variationId],
+            includeRelatedObjects: true
+          });
+
+          // Extract Parent ITEM here where variationId is still in scope
+          const parentItem = result.result.related_objects?.find(obj => obj.type === 'ITEM');
+
+          if (!parentItem) {
+            console.error("Could not find parent ITEM for variation:", variationId);
+            return res.status(404).send("Parent item not found");
           }
-          if(result === null)
-          {
-            console.error("No result from catalog batchGet");
-            return res.status(500).send("No result from catalog batchGet");
-          }
 
-          // var variationse = await client.catalog.list({ types: "ITEM"}).filter(obj => obj.type === "ITEM_VARIATION" 
-          //   && obj.item_data.name === reault.item_data.namwe).variations
-
-          if(result.related_objects)
-          {
-            throw new Error("No realted objects found");
-          }
-          const parentItem = result.related_objects.find(obj => obj.type === "ITEM");
-
-
+          // Proceed with database updates
           await updateVariationSupportTables(parentItem);
           await updateDatabaseInventory(parentItem);
-          
-        } catch (error) {
-          console.error("Error retrieving catalog object:", error);
-          return res.status(500).send("Error retrieving catalog object");
+
+        } catch (err) {
+          console.error("Error processing inventory update:", err);
+          return res.status(500).send("Error fetching catalog object");
         }
         break;
 
       default:
-        console.log(`Received unhandled event type: ${type}`);
+        console.log(`Unhandled event type: ${type}`);
+        return res.status(200).send("Event type not handled");
     }
 
-    // 3. Always return a 200 to Square quickly
-    res.status(200).send("OK");
+    // Extract the Parent ITEM from related_objects
+    // This is the "proper object" your database functions are expecting
+    const parentItem = result.result.related_objects?.find(obj => obj.type === 'ITEM');
 
-  } catch (error) {
-    console.error("Webhook processing error:", error);
-    // Even if processing fails, Square expects a response
-    res.status(500).send("Internal Server Error");
+    if (!parentItem) {
+      console.error("Could not find parent ITEM for variation:", variationId);
+      return res.status(404).send("Parent item not found");
+    }
+
+    // Now parentItem is defined and contains item_data.variations
+    await updateVariationSupportTables(parentItem);
+    await updateDatabaseInventory(parentItem);
+
+  } catch (err) {
+    console.error("Error processing inventory update:", err);
+    return res.status(500).send("Error");
   }
+    // 3. Always return a 200 to Square quickly
+    res.status(200).send("OK"); 
 });
 
 async function updateVariationSupportTables(catalogObject) {
