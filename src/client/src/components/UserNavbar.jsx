@@ -43,9 +43,14 @@ const UserNavbar = React.forwardRef((props, ref) => {
                 </Nav.Link>
                 
                 {!isAuthenticated ? (
-                  <button onClick={() => loginWithRedirect()}>
-                    <img src={User} width="20" alt="User" />
-                  </button>
+                  <>
+                    <Nav.Link as={Link} to="/login?provider=supertokens">
+                      ST Login
+                    </Nav.Link>
+                    <button onClick={() => loginWithRedirect()}>
+                      <img src={User} width="20" alt="User" />
+                    </button>
+                  </>
                   ) : (
                     <Nav.Link as={Link} to="/account">
                         <img src={User} width="20" alt="User"/>
@@ -85,9 +90,12 @@ const UserNavbar = React.forwardRef((props, ref) => {
                 </Nav.Link>
                 
                 {!isAuthenticated ? (
-                  <button className="nav-icon-btn" onClick={() => loginWithRedirect()}>
-                    <img src={User} width="40" alt="User" className="d-inline-block align-top" />
-                  </button>
+                  <>
+                    <Nav.Link as={Link} to="/login?provider=supertokens">ST Login</Nav.Link>
+                    <button className="nav-icon-btn" onClick={() => loginWithRedirect()}>
+                      <img src={User} width="40" alt="User" className="d-inline-block align-top" />
+                    </button>
+                  </>
                   ) : (
                     <Nav.Link as={Link} to="/account">
                         <img src={User} width="40" alt="User" className="d-inline-block align-top" />
